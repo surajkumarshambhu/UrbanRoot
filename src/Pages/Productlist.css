@@ -1,0 +1,139 @@
+.row{
+    display: flex;
+}
+
+.product-header-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+h4{
+    font-family: "Lato",sans-serif;
+    font-weight: 600;
+    margin: 0px;
+    line-height: 1;
+    color: #110A57;
+    font-size: 1.44em;
+}
+
+.content-page{
+    padding: 20px;
+}
+.btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 5px;
+    gap: 10px;
+    background-color: #32BDEA;
+    padding: 12px;
+    border-color: #32BDEA;
+    border: none;
+    border-radius: 10px;
+}
+
+.btn > span{
+    font-size: 1rem;
+    color: #fff;
+}
+
+.table-wrapper > :first-child{
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+.dataTables_length > label{
+    color: #01041b;
+}
+
+.dataTables_length > label > select{
+    margin: 0 8px;
+    padding: 3px;
+    border-color: #676E8A;
+    font-weight: 500;
+}
+
+.cardsBoxShadow {
+    box-shadow: 0 0 5px rgb(0 0 0 / 20%), 0 4px 8px 0 transparent;
+    background-color: var(--primary-white);
+}
+
+.cardsBoxShadow > img{
+    width: 30px;
+}
+
+.border{
+    border:1px solid #DCDFE8;
+    border-radius: 5px;
+}
+
+.table-content{
+    width: 100%;
+    margin: 0 auto;
+    clear: both;
+    border-collapse: separate;
+    border-spacing: 0
+}
+
+.table-content > thead{
+    color: #212529;
+    background-color: #F4F5FA;
+    text-align: justify;
+}
+
+.product-name > div{
+    gap: 10px;
+}
+
+.action-items{
+    display: flex;
+    gap: 10px;
+}
+
+.action-items > button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #32BDEA;
+    padding: 8px;
+    border-color: #32BDEA;
+    border: none;
+    border-radius: 10px;
+}
+
+.table-footer{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.remove-buttonstyle{
+    border: none;
+    background-color: transparent ;
+}
+
+.table-page-count{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.table-page-count>button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F4F5FA;
+    padding: 10px;
+    border-color: #F4F5FA;
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.table-page-count>:nth-child(2){
+   
+}

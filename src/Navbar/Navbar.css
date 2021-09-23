@@ -1,0 +1,36 @@
+#navbar{
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    padding: 0px 18px;
+    box-shadow: 0px 16px 15px 0px rgb(0 0 0 / 4%);
+
+}
+
+.nav-content{
+    grid-gap: 10px;
+    display: grid;
+    align-items: center;
+    grid-gap: 1em;
+    grid-template-columns: auto auto auto auto;
+}
+
+.nav-content > button{
+    color: #676E8A;
+    border-radius: 10px;
+    background: transparent;
+    padding: 8px;
+    border: 1px solid #676E8A;
+}
+
+.nav-content > button > div{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+
+.nav-content > button > div > span{
+    font-size: 1.2em;
+}

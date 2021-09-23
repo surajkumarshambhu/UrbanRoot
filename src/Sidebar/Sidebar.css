@@ -1,0 +1,88 @@
+#sidebar{
+    height: 100vh;
+    box-shadow: 0px 0px 12px -2px #d0d0d0;
+    z-index: 9999;
+    background: #fff;
+    transition: all 0.2s;
+}
+#sidebar.active{
+    width: 256px;
+    transition: all 0.2s;
+}
+#sidebar.notActive{
+    width: 84px;
+    transition: all 0.2s;
+}
+#sidebar>div:first-child{
+    padding: 12px 18px;
+    align-items: center;
+}
+#sidebar.active>div:first-child{
+    grid-template-columns: 1fr 3fr 1fr;
+    display: grid;
+}
+#sidebar.notActive>div:first-child{
+    display: flex;
+    align-items: center;
+}
+.links{
+    padding: 12px 18px ;
+}
+
+#sidebar.active .noSub a,#sidebar.active .sub a{
+    display: grid;
+    grid-template-columns: max-content auto;
+    align-items: center;
+}
+#sidebar.notActive .noSub a,#sidebar.anotActivective .sub a{
+    display: flex;
+    align-items: center;
+}
+#sidebar.active .subsDiv>div:first-child{
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    align-items: center;
+}
+#sidebar.notActive .subsDiv>div:first-child{
+    display: inline-block;
+}
+#sidebar.notActive .subsDiv a{
+    display: flex;
+    align-items: center;
+}
+
+
+h2{
+    margin: 0;
+}
+.icon{
+    padding: 8px 12px;
+    display: flex;
+    width: 48px;
+    text-align: center;
+}
+
+.icon>img{
+    width: 25px;
+}
+
+.subLinks{
+    transition: all 0.2s;
+}
+.subLinks a{
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    padding: 12px 28px;
+}
+
+a{
+    text-decoration: none;
+    color: #676E8A;
+}
+
+.hover-class:hover{
+    background: #f4f5fa;
+    border-radius: 0px 10px 10px 0px;
+}
