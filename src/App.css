@@ -24,3 +24,15 @@
     justify-content: space-between;
     align-items: center;
 }
+
+
+.btn-primary-style{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 5px;
+    gap: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+}

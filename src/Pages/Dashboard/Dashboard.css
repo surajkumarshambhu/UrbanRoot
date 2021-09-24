@@ -1,0 +1,84 @@
+.top-main{
+    display: flex;
+    margin: 10px;
+    flex-wrap:wrap;
+}
+
+.main-wrapper{
+    
+}
+
+.top-left-content{
+    margin: 10px;
+    flex-grow: 1;
+}
+
+.top-right-content{
+    margin: 10px;
+    flex-grow: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.top-left-content>:first-child{
+    font-weight: 600;
+    line-height: 1.5;
+    color: #110A57;
+    font-size: 1.728em;
+    margin: 10px;
+}
+
+.top-left-content>:last-child{
+    margin: 10px;
+}
+
+.card-body{
+    width: 30%;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+    box-shadow: 0 0 5px rgb(0 0 0 / 20%), 0 4px 8px 0 transparent;
+    border-radius: 10px;
+}
+
+.bg-1{
+    background-color: #32BDEA ;
+    color: white;
+    font-weight: bold;
+}
+
+.bg-2{
+    background-color: #E08DB4 ;
+    color: white;
+    font-weight: bold;
+}
+
+.bg-3{
+    background-color: #78C091 ;
+    color: white;
+    font-weight: bold;
+}
+
+.graph-container{
+    display:flex;
+    margin: 20px;
+    gap: 10px;
+}
+
+.graph-card{
+  width: 50%;
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%), 0 4px 8px 0 transparent;
+  border-radius: 20px ;
+}
+
+.graph-card-header{
+  padding: 20px;
+  border-bottom: 1px solid #DCDFE8;
+}
+
+.graph-card-body{
+  padding: 20px;
+}

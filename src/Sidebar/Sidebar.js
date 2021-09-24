@@ -83,7 +83,7 @@ const Sidebar = () =>{
                     </div>
                     <div style={links === 1 ? styles.linkShow : styles.linkHide} className="subLinks">
                         <a href="/Productlist">- List Product</a>
-                        <a href="#">- Add Product</a>
+                        <a href="/Addproduct">- Add Product</a>
                     </div>
                 </div>
                 <div className="subsDiv">
@@ -99,8 +99,8 @@ const Sidebar = () =>{
                         </div>
                     </div>
                     <div style={links === 2 ? styles.linkShow : styles.linkHide} className="subLinks">
-                        <a href="#">- List Categories</a>
-                        <a href="#">- Add Category</a>
+                        <a href="/Categories">- List Categories</a>
+                        <a href="/Addcategories">- Add Category</a>
                     </div>
                 </div>
             </div>

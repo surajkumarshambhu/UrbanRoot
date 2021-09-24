@@ -34,3 +34,9 @@ img{
   width: 50px;
   border-radius: 10px;
 }
+
+label{
+  display: inline-block;
+  color: #01041b;
+  margin-bottom: .5rem;
+}

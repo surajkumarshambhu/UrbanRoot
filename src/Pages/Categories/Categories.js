@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { IconContext } from 'react-icons/lib';
-import './Productlist.css';
 import * as AiIcons from 'react-icons/ai';
-import FilterIcon from '../Images/filter.svg';
-import TestImage from '../Images/testimage.jpeg';
+import FilterIcon from '../../Images/filter.svg';
+import './Categories.css'
 
-export default class Dashboard extends Component {
+export default class Categories extends Component {
     render() {
         return (
             <>
@@ -13,13 +12,13 @@ export default class Dashboard extends Component {
             <div className='content-page'>
                     <div className='product-header-content'>
                         <div className='product-header-right'>
-                                <h4>Product List</h4>
-                                <p>The product list effectively dictates product presentation and provides space <br/> 
-                                to list your products and offering in the most appealing way.</p>
+                                <h4>Category List</h4>
+                                <p>Use category list as to describe your overall core business from the provided list.<br/> 
+                                Click Add Category to add more categories .</p>
                         </div>
                         <button className='btn'>
                             <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
-                            <span>Add Product</span>
+                            <span>Add Category</span>
                         </button>
                     </div>
                     <div className='product-table-content'>
@@ -43,44 +42,22 @@ export default class Dashboard extends Component {
                             </div>
                             <div>
                                 <table className='table-content border'>
-                                    <thead>
+                                    <thead className='align-items-center'>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Product Code</th>
                                             <th>Category</th>
-                                            <th>Price</th>
-                                            <th>Brand Name</th>
-                                            <th>Cost</th>
-                                            <th>Quantity</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="product-name">
-                                                <div class="row">
-                                                    <img src={TestImage} alt="" />
-                                                    <div>
-                                                        Alloy Jewel Set                   
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="">AJS01</td>
-                                            <td class="">Jewellery</td>
-                                            <td class="">$150.00</td>
-                                            <td class="">Jazzin</td>
-                                            <td class="">$50.00</td>
                                             <td class="">200.0</td>
                                             <td>
                                                 <div class="action-items">
                                                     <button className='cardsBoxShadow'>
-                                                        <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
+                                                        <AiIcons.AiOutlineEdit></AiIcons.AiOutlineEdit>
                                                     </button>
                                                     <button className='cardsBoxShadow'>
                                                         <AiIcons.AiOutlineDelete></AiIcons.AiOutlineDelete>
-                                                    </button>
-                                                    <button className='cardsBoxShadow'>
-                                                        <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
                                                     </button>
                                                 </div>
                                             </td>
@@ -106,3 +83,5 @@ export default class Dashboard extends Component {
         )
     }
 }
+
+
