@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Graph from '../../Graph/graph';
+import Printbarcode from '../../Print/Printbarcode';
 import './Dashboard.css';
 
 
@@ -42,7 +43,7 @@ export default class Dashboard extends Component {
                                 <h4>Revenue</h4>
                             </div>
                             <div className='graph-card-body'>
-                                <Graph></Graph>
+                                <Printbarcode></Printbarcode>
                             </div>
                         </div>
                     </div>
