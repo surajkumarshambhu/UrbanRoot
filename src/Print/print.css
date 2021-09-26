@@ -1,3 +1,7 @@
 .barcode-img{
     
 }
+
+.barcode-print-div{
+    display: flex;
+}

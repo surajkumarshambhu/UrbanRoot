@@ -6,7 +6,7 @@ import ReactToPrint from "react-to-print";
 class ComponentToPrint extends React.Component {
     render() {
       return (
-        <div>
+        <div className='barcode-print-div'>
             <Barcodegenerate></Barcodegenerate>
             <Barcodegenerate></Barcodegenerate>
         </div>

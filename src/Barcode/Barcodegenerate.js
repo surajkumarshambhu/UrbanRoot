@@ -4,10 +4,16 @@ import '../Print/print.css'
 
 function Barcodegenerate() {
     const { inputRef } = useBarcode({
-        value: "12345 6789"
+        value: ["12345 6789","MRP-12.00"],
+        options: {
+            width:'1',
+            height: '50',
+            textAlign: 'center',
+            textPosition: 'top'
+          }
       });
     return (
-        <img className='barcode-img' ref={inputRef} />
+        <svg className='barcode-img' ref={inputRef} />
     )
 }
 
