@@ -17,13 +17,13 @@ class ComponentToPrint extends React.Component {
 export default class Printbarcode extends React.Component{
     render() {
         return (
-            <div>
+          <>
+            <ComponentToPrint ref={el => (this.componentRef = el)} />
             <ReactToPrint
                 trigger={() => <a href="#">Print this out!</a>}
                 content={() => this.componentRef}
             />
-            <ComponentToPrint ref={el => (this.componentRef = el)} />
-            </div>
+          </>
         )
     };
 }

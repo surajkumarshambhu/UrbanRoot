@@ -8,8 +8,6 @@ function Barcodegenerate() {
         options: {
             width:'1',
             height: '50',
-            textAlign: 'center',
-            textPosition: 'top'
           }
       });
     return (

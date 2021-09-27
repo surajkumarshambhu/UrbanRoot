@@ -1,7 +1,12 @@
 .barcode-img{
-    
+    margin-top: 10px;
 }
 
 .barcode-print-div{
     display: flex;
+    text-align: center;
+}
+
+.display-none{
+    display: none;
 }
