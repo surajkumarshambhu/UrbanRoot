@@ -1,11 +1,37 @@
-import React, { Component } from 'react'
+import React, { Component , useState} from 'react'
+import * as CONSTANT from '../Helper/Constant';
 import { IconContext } from 'react-icons/lib';
 import './Productlist.css';
 import * as AiIcons from 'react-icons/ai';
 import FilterIcon from '../Images/filter.svg';
 import TestImage from '../Images/testimage.jpeg';
+import { ApiHelper } from '../Helper/APIHelper';
+
+const getProductListRequest = {
+    "request":{
+        "no_of_records":CONSTANT.NUMBEROFITEMS,
+        "page_number":0
+    }
+};
 
 export default class Dashboard extends Component {
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            productData: []
+        }
+    }
+
+    componentDidMount() {
+        let url = "get-products";
+        ApiHelper(url,getProductListRequest,'POST')
+        .then(resposnse => {
+            this.productData = resposnse;
+        });
+    }
+
     render() {
         return (
             <>
@@ -25,9 +51,9 @@ export default class Dashboard extends Component {
                     <div className='product-table-content'>
                         <div className='table-wrapper'>
                             <div>
-                                <div class="dataTables_length" id="DataTables_Table_0_length">
+                                <div className="dataTables_length" id="DataTables_Table_0_length">
                                     <label>Show 
-                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="">
+                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0">
                                             <option value="10">10</option>
                                             <option value="25">25</option>
                                             <option value="50">50</option>
@@ -57,7 +83,7 @@ export default class Dashboard extends Component {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="product-name">
+                                            <td className="product-name">
                                                 <div class="row">
                                                     <img src={TestImage} alt="" />
                                                     <div>
@@ -72,7 +98,7 @@ export default class Dashboard extends Component {
                                             <td class="">$50.00</td>
                                             <td class="">200.0</td>
                                             <td>
-                                                <div class="action-items">
+                                                <div className="action-items">
                                                     <button className='cardsBoxShadow'>
                                                         <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                                     </button>

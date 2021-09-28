@@ -4,7 +4,7 @@ import HomeIcon from '../Images/home.png'
 import * as AiIcons from 'react-icons/ai'
 import { IconContext } from 'react-icons/lib';
 
-const ArrowInactiveSvg = <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" color='#676E8A' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 15 5 5 5-5"/><path d="M4 4h7a4 4 0 0 1 4 4v12"/></svg>;
+const ArrowInactiveSvg = <svg className="svg-icon iq-arrow-right arrow-active" width="20" height="20" color='#676E8A' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10 15 5 5 5-5"/><path d="M4 4h7a4 4 0 0 1 4 4v12"/></svg>;
 // const ArrowActiveSvg = <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" color='#676E8A' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 15 5 5 5-5"/><path d="M4 4h7a4 4 0 0 1 4 4v12"/></svg>;
 
 const styles={

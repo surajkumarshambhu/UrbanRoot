@@ -43,7 +43,7 @@ export default class Dashboard extends Component {
                                 <h4>Revenue</h4>
                             </div>
                             <div className='graph-card-body'>
-                                <Printbarcode></Printbarcode>
+                                <Graph></Graph>
                             </div>
                         </div>
                     </div>
