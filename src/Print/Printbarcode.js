@@ -5,10 +5,11 @@ import ReactToPrint from "react-to-print";
 
 class ComponentToPrint extends React.Component {
     render() {
+      console.log("code"+ this.props.barcodeData + "   mrp" + this.props.mrp);
       return (
         <div className='barcode-print-div'>
-            <Barcodegenerate></Barcodegenerate>
-            <Barcodegenerate></Barcodegenerate>
+            <Barcodegenerate barcodeData={this.props.barcodeData} mrp = {this.props.mrp}></Barcodegenerate>
+            <Barcodegenerate barcodeData={this.props.barcodeData} mrp = {this.props.mrp}></Barcodegenerate>
         </div>
       );
     }
@@ -16,14 +17,28 @@ class ComponentToPrint extends React.Component {
 
 export default class Printbarcode extends React.Component{
     render() {
+      const style = {
+        display: "flex",
+        aligItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#78C091",
+        padding: "5px",
+        borderColor: "#78C091",
+        border: "none",
+        borderRadius: "10px",
+        color: "black",
+        fontSize: "larger",
+        marginTop: "8px",
+        cursor:"pointer"
+      }
         return (
-          <>
-            <ComponentToPrint ref={el => (this.componentRef = el)} />
-            <ReactToPrint
-                trigger={() => <a href="#">Print this out!</a>}
+          <div>
+            <ComponentToPrint ref={el => (this.componentRef = el)} barcodeData={this.props.barcodeData} mrp = {this.props.mrp} />
+            <ReactToPrint 
+                trigger={() => <a style={style} href="#">Print this out!</a>}
                 content={() => this.componentRef}
             />
-          </>
+          </div>
         )
     };
 }

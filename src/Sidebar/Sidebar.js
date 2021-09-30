@@ -31,7 +31,7 @@ const styles={
 }
 
 const Sidebar = () =>{
-    const [active,setActive] = useState(true);
+    const [active,setActive] = useState(false);
     const [links,showLinks] = useState(0);
     const handleActive = () =>{
         const act = !active;

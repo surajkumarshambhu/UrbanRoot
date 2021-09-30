@@ -17,7 +17,9 @@ export function ApiHelper(url, data = {}, method = 'GET') {
     })
     .then(res => res.json())
     .then((result) => {
-        console.log(result);
+        if(CONSTANT.DEV_MODE === 1){
+            console.log(result);
+        }
         return result;
     }, (error) => {
         error = error;

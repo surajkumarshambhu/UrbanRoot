@@ -137,3 +137,7 @@ h4{
 .table-page-count>:nth-child(2){
    
 }
+
+.table-img{
+    height: 50px;
+}
