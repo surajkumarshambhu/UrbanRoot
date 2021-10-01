@@ -103,6 +103,23 @@ const Sidebar = () =>{
                         <a href="/Addcategories">- Add Category</a>
                     </div>
                 </div>
+                <div className="subsDiv">
+                    <div onClick={()=>handleLinks(2)} className="hover-class">
+                        <div className="sub">
+                            <a href="#">
+                                <span className="icon"><AiIcons.AiFillFileImage></AiIcons.AiFillFileImage></span>
+                                <span style={active === true ? styles.active : styles.notActive}>Purchase</span>
+                            </a>
+                        </div>
+                        <div style={active === true ? styles.active : styles.notActive}>
+                            <span className="icon">{ArrowInactiveSvg}</span>
+                        </div>
+                    </div>
+                    <div style={links === 2 ? styles.linkShow : styles.linkHide} className="subLinks">
+                        <a href="/Categories">- List Purchase Orders</a>
+                        <a href="/Calulatebill">- New Purchase</a>
+                    </div>
+                </div>
             </div>
         </div>
         </IconContext.Provider>

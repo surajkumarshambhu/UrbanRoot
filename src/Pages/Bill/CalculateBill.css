@@ -1,0 +1,63 @@
+.bill-header-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.bill-header-action{
+    display: flex;
+    gap: 10px;
+}
+
+.bill-header-action > button{
+    color: white;
+    font-weight: bolder;
+}
+
+.bill-header-container > span{
+    font-weight: 600;
+    color: #110A57;
+    font-size: 1.728em;
+    margin: 10px;
+}
+
+.background-color{
+    background-color: #e0f4ff;
+    padding: 5px;
+}
+
+.company-details{
+    display: flex;
+    justify-content: space-between;
+    font-family: monospace;
+}
+
+.bottom-main{
+    margin: 10px;
+    padding: 5px;
+}
+
+.bottom-main-company-logo > img{
+    width: 200px;
+    height: 160px;
+}
+
+.enter-barcode{
+    margin: 0;
+}
+
+.enter-barcode > input{
+    width: 250px;
+}
+
+.order-summery{
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+    padding: 10px;
+    border: 1px solid;
+    margin-top: 7px;
+    box-shadow: 0px 0px 12px -2px #d0d0d0;
+    border: .5px solid #676e8a00;
+    border-radius: 10px;
+}
