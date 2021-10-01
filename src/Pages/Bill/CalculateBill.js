@@ -1,11 +1,56 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import * as AiIcons from 'react-icons/ai';
 import { IconContext } from 'react-icons/lib';
 import logo from '../../Images/logo.png'
-import FilterIcon from '../../Images/filter.svg';
 import './CalculateBill.css';
+import { ApiHelper } from '../../Helper/APIHelper';
+
 
 function CalculateBill() {
+
+    const [itemList, setItemList] = useState({});
+    const [productCode, setProductCode] = useState('');
+    const [itemListArray, setItemListArray] = useState([]);
+    const [barcodeItems, setBarcodeItems] = useState([]);
+
+    function handle(e){
+        setProductCode(e.target.value)
+    }
+
+    function submit(e){
+        e.preventDefault()
+        setBarcodeItems(
+            (previousItems) => [...previousItems, {barcode:productCode,qty:1}]
+        )
+        setProductCode('')
+    }
+
+    useEffect(() => {
+        const requestBody = {request: {product:barcodeItems}}
+        let url = "purchase-products";
+        ApiHelper(url,requestBody,'POST')
+        .then(resposnse => {
+            if(resposnse.data.details.length > 0){
+                setItemList(resposnse.data)
+                setItemListArray(resposnse.data.details)
+            }
+        })
+    },[barcodeItems]);
+
+    // function handleQty(e,key){
+    //     itemListArray[key].quantity = e.target.value
+    //     setItemListArray(itemListArray)
+    // }
+
+    // useEffect(() => {
+    //     let url = "purchase-products";
+    //     ApiHelper(url,getProductListRequest,'POST')
+    //     .then(resposnse => {
+    //         setItemList(resposnse.data)
+    //         setItemListArray(resposnse.data.details)
+    //     })
+    // },[]);
+
     return (
         <>
             <IconContext.Provider value={{ color: '#666E8A',size: '25px' }}>
@@ -19,7 +64,7 @@ function CalculateBill() {
                                 Print
                              </button>
                              <button className='btn'>
-                                <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
+                                <AiIcons.AiOutlineSave></AiIcons.AiOutlineSave>
                                 Save
                              </button>
                          </div>
@@ -28,10 +73,10 @@ function CalculateBill() {
                 <div className='bottom-main'>
                     <div className='company-details'>
                         <div className='bottom-main-company-details'>
-                            <p>Chris Coyier</p>
-                            <p>123 Appleseed Street</p>
-                            <p>Appleville, WI 53719</p>
-                            <p>Phone: (555) 555-5555</p>
+                            <p>Urban Roots</p>
+                            <p>Ward No. 4</p>
+                            <p>Pnadu Barabazar</p>
+                            <p>Phone: 7002321056</p>
                             <p>GST:- 18AOFPR680IZI</p>
                             <p>Date:- 19th may 2020</p>
                         </div>
@@ -46,7 +91,9 @@ function CalculateBill() {
 
                             </div>
                             <div className='enter-barcode' >
-                                <input type="text" className="form-control" placeholder="Enter barcode / Scan barcode" required="required"/>
+                                <form onSubmit={(e) => submit(e)}>
+                                    <input type="text" className="form-control" placeholder="Enter barcode / Scan barcode" onChange={(e) => handle(e)} id = 'productCode' value={productCode}/>
+                                </form>
                             </div>
                         </div>
                         <div>
@@ -61,18 +108,25 @@ function CalculateBill() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <tr key = '1'>
-                                        <td className="">some</td>
-                                    </tr> 
+                                    {
+                                        (itemListArray).map((item, key) => {
+                                            return  <tr key = {key}>
+                                                        <td className="">{item.item}</td>
+                                                        <td className="">{item.description}</td>
+                                                        <td className="">{item.unit_cost}</td>
+                                                        <td className="">
+                                                              {item.quantity}
+                                                        </td>
+                                                        <td className="">{item.total_price}</td>
+                                                    </tr> 
+                                        })
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div className='order-summery'>
-                        <p>Subtotal</p>
-                        <p>Total</p>
-                        <p>Amount Paid</p>
-                        <p>Balance Due</p>
+                        <p>Subtotal :-  {itemList.sub_total} </p>
                     </div>
                 </div>
                 </div>

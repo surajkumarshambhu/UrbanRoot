@@ -94,7 +94,7 @@ function Addproduct() {
         let url = "add-product";
         ApiHelper(url,postData,'POST')
         .then(resposnse => {
-            if (resposnse.success == false){
+            if (resposnse.success === false){
                 console.log("flase");
                 setLoader({
                     loader: false

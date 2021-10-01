@@ -8,6 +8,7 @@ import Categories from './Pages/Categories/Categories';
 import Addcategories from './Pages/Categories/Addcategories';
 import Addproduct from './Pages/Addproduct';
 import CalculateBill from './Pages/Bill/CalculateBill';
+import Login from './Authentication/Login';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <div id="main">
         <Router>
           <Switch>
+            <Route path='/' exact component={Login} />
             <Route path='/dashboard' exact component={Dashboard} />
             <Route path='/productlist' exact component={Productlist} />
             <Route path='/categories' exact component={Categories} />
