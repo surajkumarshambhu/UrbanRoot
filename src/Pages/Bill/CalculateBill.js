@@ -3,12 +3,39 @@ import * as AiIcons from 'react-icons/ai';
 import { IconContext } from 'react-icons/lib';
 import logo from '../../Images/logo.png'
 import './CalculateBill.css';
+import Loader from 'react-loader-spinner';
 import { ApiHelper } from '../../Helper/APIHelper';
 
+const styles={
+    addCategories:{
+        backgroundColor: '#32BDEA' ,
+        borderColor: '#32BDEA'
+    },
+    delete:{
+        backgroundColor: '#E08DB4' ,
+        borderColor: '#E08DB4'
+    },
+    col:{
+        maxWidth: '50%'
+    },
+    display:{
+        display: "block",
+    },
+    none:{
+        display: "none",
+    },
+}
 
 function CalculateBill() {
 
+    const [loader, setLoader] = useState({
+        loader: false,
+    })
+    const [saved, setSaved] = useState({
+        saved: false,
+    })
     const [itemList, setItemList] = useState({});
+    const [orderId, setOrderId] = useState('0');
     const [productCode, setProductCode] = useState('');
     const [itemListArray, setItemListArray] = useState([]);
     const [barcodeItems, setBarcodeItems] = useState([]);
@@ -37,19 +64,41 @@ function CalculateBill() {
         })
     },[barcodeItems]);
 
-    // function handleQty(e,key){
-    //     itemListArray[key].quantity = e.target.value
-    //     setItemListArray(itemListArray)
-    // }
+    function save(){
+        if (barcodeItems.length != 0){
+            setLoader({
+                loader:true
+            })
+            const requestBody = {request: {product:barcodeItems}}
+            let url = "save-orders";
+            ApiHelper(url,requestBody,'POST')
+            .then(resposnse => {
+                if(resposnse.success === true){
+                    setLoader({
+                        loader:false
+                    })
+                    setSaved({
+                        saved: true
+                    })
+                    setOrderId(resposnse.data.order_id);
+                }
+            })
+        }
+    }
 
-    // useEffect(() => {
-    //     let url = "purchase-products";
-    //     ApiHelper(url,getProductListRequest,'POST')
-    //     .then(resposnse => {
-    //         setItemList(resposnse.data)
-    //         setItemListArray(resposnse.data.details)
-    //     })
-    // },[]);
+    function print(){
+        if (orderId === '0'){
+            return
+        }
+        const requestBody = {request: {order_id:orderId}}
+        let url = "get-pdfview";
+        ApiHelper(url,requestBody,'POST')
+        .then(resposnse => {
+            if(resposnse.success === true){
+                window.open(resposnse.data.url);
+            }
+        })
+    }
 
     return (
         <>
@@ -59,13 +108,18 @@ function CalculateBill() {
                     <div className="bill-header-container">
                          <span>Invoice #123456</span>
                          <div className='bill-header-action'>
-                             <button className='btn'>
+                             <button className='btn' disabled={loader.loader === false ? false : true} onClick={(e) => print()}>
                                 <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
                                 Print
                              </button>
-                             <button className='btn'>
+                             <button className='btn' onClick={(e) => save()} disabled={loader.loader === true ? true : (saved.saved === false ? false : true)}>
+                                {
+                                    loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
+                                }
+                                {
+                                    (loader.loader) === true ? "Saving" : (saved.saved === false ? "Save" : "Saved !")
+                                }
                                 <AiIcons.AiOutlineSave></AiIcons.AiOutlineSave>
-                                Save
                              </button>
                          </div>
                     </div>
