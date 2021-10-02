@@ -13,10 +13,7 @@ function Barcodegenerate(props) {
       });
     return (
         <>
-          <div className='barcode-div'>
-              <span>MRP:120/-<br/>D.O.E-12/12/2021</span>
-              <svg className='barcode-img' ref={inputRef} />
-          </div>
+          <svg className='barcode-img' ref={inputRef} />
         </>
     )
 }
