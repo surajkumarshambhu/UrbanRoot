@@ -19,7 +19,7 @@ const getProductListRequest = {
 const styles={
     active:{
         display: "grid",
-        height: "25vh",
+        height: "30vh",
         position: "absolute",
         width: "calc(80% - 78px)",
         textAlign: "center",

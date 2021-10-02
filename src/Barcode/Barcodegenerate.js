@@ -7,7 +7,7 @@ function Barcodegenerate(props) {
     const { inputRef } = useBarcode({
         value: [props.barcodeData],
         options: {
-            width:'1',
+            width:'2',
             height: '50',
           }
       });
