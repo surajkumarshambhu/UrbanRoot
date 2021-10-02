@@ -31,6 +31,9 @@ function CalculateBill() {
     const [loader, setLoader] = useState({
         loader: false,
     })
+    const [loaderPrint, setloaderPrint] = useState({
+        loader: false,
+    })
     const [saved, setSaved] = useState({
         saved: false,
     })
@@ -82,11 +85,19 @@ function CalculateBill() {
                     })
                     setOrderId(resposnse.data.order_id);
                 }
+                else{
+                    setLoader({
+                        loader:false
+                    })
+                }
             })
         }
     }
 
     function print(){
+        setloaderPrint({
+            loader:true
+        })
         if (orderId === '0'){
             return
         }
@@ -95,7 +106,15 @@ function CalculateBill() {
         ApiHelper(url,requestBody,'POST')
         .then(resposnse => {
             if(resposnse.success === true){
+                setloaderPrint({
+                    loader:false
+                })
                 window.open(resposnse.data.url);
+            }
+            else{
+                setloaderPrint({
+                    loader:false
+                })
             }
         })
     }
@@ -109,8 +128,13 @@ function CalculateBill() {
                          <span>Invoice #123456</span>
                          <div className='bill-header-action'>
                              <button className='btn' disabled={loader.loader === false ? false : true} onClick={(e) => print()}>
+                                {
+                                    loaderPrint.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
+                                }
+                                {
+                                    (loaderPrint.loader) === true ? "Getting Pdf" : "Print" 
+                                }
                                 <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
-                                Print
                              </button>
                              <button className='btn' onClick={(e) => save()} disabled={loader.loader === true ? true : (saved.saved === false ? false : true)}>
                                 {

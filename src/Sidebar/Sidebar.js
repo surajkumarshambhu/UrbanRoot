@@ -116,7 +116,7 @@ const Sidebar = () =>{
                         </div>
                     </div>
                     <div style={links === 2 ? styles.linkShow : styles.linkHide} className="subLinks">
-                        <a href="/Categories">- List Purchase Orders</a>
+                        <a href="/Getorders">- List Purchase Orders</a>
                         <a href="/Calulatebill">- New Purchase</a>
                     </div>
                 </div>

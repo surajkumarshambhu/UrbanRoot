@@ -51,7 +51,7 @@ function Addproduct() {
         category: '0',
         product_name:'',
         cost: '',
-        tax_method: '',
+        tax_method: 'Inclusive',
         tax: '',
         hsn_code: '',
         quantity: '',
@@ -148,7 +148,6 @@ function Addproduct() {
                             <div className='form-group-col'>
                                 <label>Tax Method *</label>
                                 <select className="form-control" required="required" id = 'tax_method'  onChange={(e) => handle(e)} >
-                                    <option value="Exclusive">Exclusive</option>
                                     <option value="Inclusive">Inclusive</option>
                                 </select> 
                             </div>

@@ -9,6 +9,7 @@ import Addcategories from './Pages/Categories/Addcategories';
 import Addproduct from './Pages/Addproduct';
 import CalculateBill from './Pages/Bill/CalculateBill';
 import Login from './Authentication/Login';
+import Getorders from './Pages/GetpurchaseOrder.js/Getorders';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path='/Addcategories' exact component={Addcategories} />
             <Route path='/Addproduct' exact component={Addproduct} />
             <Route path='/Calulatebill' exact component={CalculateBill} />
+            <Route path='/Getorders' exact component={Getorders} />
           </Switch>
         </Router>
       </div>
