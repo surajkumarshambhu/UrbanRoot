@@ -1,5 +1,5 @@
 .barcode-img{
-    margin-top: 10px;
+    
 }
 
 .barcode-print-div{
@@ -9,4 +9,15 @@
 
 .display-none{
     display: none;
+}
+
+.barcode-div{
+    display: flex;
+    flex-direction: column;
+}
+
+.barcode-div > span{
+    line-height: 15px;
+    color: black;
+    font-family: monospace;
 }
