@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { ApiHelper } from '../Helper/APIHelper'
-import { useHistory } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
+import axios from 'axios'
+import * as CONSTANT from '../Helper/Constant';
 
 const getProductListRequest = {
     "request":{
-        "no_of_records":1000,
+        "no_of_records":10,
         "page_number":1
     }
 };
@@ -34,10 +35,11 @@ function Addproduct() {
 
     const [categoryListArray, setCategoryListArray] = useState([]);
     useEffect(() => {
-        let url = "get-Catagories";
+        let url = "get-categories";
         ApiHelper(url,getProductListRequest,'POST')
         .then(resposnse => {
-            setCategoryListArray(resposnse.data.Catagories_list)
+            console.log(resposnse)
+            setCategoryListArray(resposnse.data.categories_list)
         })
     }, []);
 
@@ -45,7 +47,7 @@ function Addproduct() {
         loader: false,
     })
 
-    const history = useHistory();
+    const [productId,setproductId] = useState()
     const [formData,setFormData] = useState({
         id: '',
         category: '0',
@@ -60,12 +62,21 @@ function Addproduct() {
         brand_name: '',
         expiry_date:''
     })
-    
+
+    const [fileData,setFileData] = useState({
+        file: '',
+        id: '0'
+    })
+
+    const [showDiv,setShowDiv] = useState({
+        addButton: true,
+        uploadImage: false
+    })
+
     function handle(e){
         const newData = {...formData}
         newData[e.target.id] = e.target.value
         setFormData(newData)
-        console.log(formData);
     }
 
     function submit(e){
@@ -102,20 +113,68 @@ function Addproduct() {
             }
             else{
                 console.log("true");
-                history.push("/productlist");
+                setproductId(resposnse.data.product_id)
                 setLoader({
                    loader: false
+                })
+                setShowDiv({
+                    addButton: false,
+                    uploadImage: true
                 })
             }
         })
     }
 
     function reset(e){
-        e.target.reset();
+
+    }
+    
+    function fileUploadHandler(e){
+        setLoader({
+            loader: true
+        })
+        let bearer ='';
+        if (localStorage.getItem("user") !== null) {
+            let usrData = JSON.parse(localStorage.getItem('user') ?? "");
+            bearer = 'Bearer '+ usrData.data.user.token ;
+        }
+        const fd = new FormData()
+        fd.append("request[file]",fileData.file,fileData.file.name)
+        fd.append("request[product_code]",productId)
+        console.log(fd)
+        axios.post(CONSTANT.BASEURL + 'upload-doc',fd,{
+            headers: {
+                'AcceptLanguage': 'en_US',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'clientVersion': 'WEB:1',
+                'Authorization': bearer,
+            }
+        })
+        .then(res=>{
+            if (res.success === true){
+                setLoader({
+                    loader: false
+                })
+            }
+            else{
+                setLoader({
+                    loader: false
+                })
+            }
+        })
+    }
+
+    function fileSelectHandler(e){
+        setFileData({
+            file:e.target.files[0],
+            id:'0'
+        })
+        console.log(fileData);
     }
 
     return (
-        <div className='add-Catagories-container'>
+        <div className='content-page'>
                 <div className='add-Catagories-container-header'>
                     <h4>Add Product</h4>
                 </div>
@@ -168,26 +227,40 @@ function Addproduct() {
                                 <input type="date" className="form-control" placeholder="Enter expiry date" required="required" onChange={(e) => handle(e)} id = 'expiry_date' value={formData.expiry_date}/>
                             </div>
                             <div className='form-group-col'>
-                                <label>Image *</label>
-                                <input type="file" className="form-control image-file" name="pic" accept="image/*"></input>
-                            </div>
-                            <div className='form-group-col'>
                                 <label>Description / Product Details *</label>
                                 <textarea className="form-control text-area" rows="4" onChange={(e) => handle(e)} id = 'description' value={formData.description}></textarea>
                             </div>
                         </div>
-                        <div className='form-group-row'>
-                            <button type="submit" className="btn-primary-style" style={styles.addCatagories} disabled={loader.loader}>
-                                {
-                                    loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
-                                }
-                                {
-                                    (loader.loader) === true ? "Adding" : "Add Product"
-                                }
-                            </button>
-                            <button type="reset" className="btn-primary-style" style={styles.delete}>Reset</button>
-                        </div>
+                        {
+                            !showDiv.addButton ? <></> : <div className='flex unset-justify-content flex-gap10'>
+                                                            <button type="submit" className="btn-primary-style" style={styles.addCatagories} disabled={loader.loader}>
+                                                                {
+                                                                    loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
+                                                                }
+                                                                {
+                                                                    (loader.loader) === true ? "Adding" : "Add Product"
+                                                                }
+                                                            </button>
+                                                            <button type="reset" className="btn-primary-style" style={styles.delete}>Reset</button>
+                                                        </div>
+                        }
                     </form>
+                    <br />
+                    {
+                        !showDiv.uploadImage ? <></> : <div className='form-group-col'>
+                                                        <div className='flex unset-justify-content flex-gap10'>
+                                                            <input type="file" className="form-control unset-line-height unset-margin" accept="image/*" onChange={(e) => fileSelectHandler(e)}></input>
+                                                            <button type="upload" className='btn' onClick={(e) => fileUploadHandler(e)} disabled={!showDiv.uploadImage} disabled={loader.loader}>
+                                                                {
+                                                                    loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
+                                                                }
+                                                                {
+                                                                    (loader.loader) === true ? "Uploading" : "Upload Image"
+                                                                }
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                    }
                 </div>
         </div>
     )

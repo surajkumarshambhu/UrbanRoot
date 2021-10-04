@@ -132,3 +132,11 @@ p{
   margin-bottom: 1rem;
   padding: 10px;
 }
+
+.unset-line-height{
+  line-height:0 !important;
+}
+
+.unset-margin{
+  margin-bottom:0
+}

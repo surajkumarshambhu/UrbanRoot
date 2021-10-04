@@ -101,7 +101,7 @@ const Productlist = () => {
                                     <StyledTableCell align="center">
                                         <Grid container gap="10px">
                                             <Grid item>
-                                                <img src={TestImage} alt='imageicon' />
+                                                <img src= {row.file_path === null ? TestImage :row.file_path } alt='imageicon' />
                                             </Grid>
                                             <Grid item >
                                                 {row.product_name}
