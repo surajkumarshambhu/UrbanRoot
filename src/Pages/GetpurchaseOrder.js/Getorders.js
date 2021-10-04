@@ -1,156 +1,125 @@
-import React, { useEffect,useState } from 'react'
+import React, {useState,useEffect} from 'react'
+import { styled } from '@mui/material/styles';
 import { IconContext } from 'react-icons/lib';
 import * as CONSTANT from '../../Helper/Constant';
 import * as AiIcons from 'react-icons/ai';
-import FilterIcon from '../../Images/filter.svg';
-import { useHistory } from 'react-router';
-import * as moment from 'moment'
+import TestImage from '../../Images/testimage.jpeg';
+import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
+       TableHead, TableRow, Paper, Grid, TablePagination} from '@mui/material';
 import { ApiHelper } from '../../Helper/APIHelper';
+import Loader from 'react-loader-spinner';
 
-const getProductListRequest = {
-    "request":{
-        "no_of_records":CONSTANT.NUMBEROFITEMS,
-        "page_number":1
-    }
-};
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+[`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#32BDEA",
+    color: theme.palette.common.white,
+},
+[`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+},
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 function Getorders() {
-    const history = useHistory();
-    const [orderListArray, setOrderListArray] = useState([]);
-    const [orderList, setOrderList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [nextPage, setNextPage] = useState(false);
-    const [previousPage, setPreviousPage] = useState(false);
+    const [page, setPage] = React.useState(0);
+    const [loader, setLoader] = useState(false)
+    const [productListArray, setProductListArray] = useState([]);
     const [totalRecord, setTotalRecord] = useState(0);
-    const [totalPage, setTotalPage] = useState(0);
 
     useEffect(() => {
+        setLoader(true)
+        const requestBody = {request: {no_of_records:CONSTANT.NUMBEROFITEMS,page_number:page + 1}}
         let url = "get-orders";
-        ApiHelper(url,getProductListRequest,'POST')
+        ApiHelper(url,requestBody,'POST')
         .then(resposnse => {
-            setOrderListArray(resposnse.data.order_details)
-            setOrderList(resposnse.data);
-            setCurrentPage(resposnse.data.page_number);
+            setProductListArray(resposnse.data.order_details)
             setTotalRecord(resposnse.data.total_records);
-            setTotalPage(   
-                (((totalRecord/10) % 1) !== 0) ? ~~(totalRecord/10) + 1 : ~~(totalRecord) / 10
-            );
-            setPreviousPage(
-                true
-            );
-            setNextPage(
-                (totalPage > 1 ? false : true)
-            );
+            setLoader(false)
         })
-    }, []);
+    }, [page]);
 
 
-    function getPrevData() { 
-        if (currentPage === totalPage){
-            setNextPage(true)
-            setPreviousPage(true)
-        }
-        else{
-            setCurrentPage(currentPage + 1);
-            if (currentPage === totalPage){
-                setNextPage(true)
-            }
-            else{
-                setNextPage(false)
-            }
-            setPreviousPage(true)
-        }
-    }
+    console.log("entry1 " + page)
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
-    function getNextData() {
-        if (currentPage === totalPage){
-            setNextPage(true)
-        }
-        else{
-            setCurrentPage(currentPage + 1);
-            setPreviousPage(false)
-        }
-        console.log(previousPage);
-        console.log(nextPage);
-    }
-    
-    function navigate(){
-        history.push("/Calulatebill");
-    }
-
+    const handleChangeRowsPerPage = (event) => {
+       
+    };
     return (
         <>
         <IconContext.Provider value={{ color: '#fff',size: '20px' }}>
         <div className='content-page'>
-                <div className='product-header-content'>
-                    <div className='product-header-right'>
-                            <h4>Category List</h4>
-                            <p>Use category list as to describe your overall core business from the provided list.<br/> 
-                            Click Add Category to add more categories .</p>
+                <div className='flex'>
+                    <div>
+                            <h4>Purchase Order</h4>
+                            <p>Purchase Order Summary statement gives detailed information on outstanding purchase orders.<br/>
+                                 The outstanding orders can be viewed Stock Group wise, Stock Category wise, Stock Item wise,<br/>
+                                  account Group wise, Ledger wise or All Orders 
+                                  to list your products and offering in the most appealing way.</p>
                     </div>
-                    <button className='btn' onClick={()=>navigate()}>
-                        <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
-                        <span>New Order</span>
-                    </button>
+                    <div className='flex flex-gap10'>
+                        <button className='btn'>
+                            <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
+                            <span>New Order</span>
+                        </button>
+                        <button className='btn'>
+                            <AiIcons.AiOutlineFilter></AiIcons.AiOutlineFilter>
+                            <span>Filter / Search Orders</span>
+                        </button>
+                    </div>
                 </div>
-                <div className='product-table-content'>
-                    <div className='table-wrapper'>
-                        <div>
-                            <div className="dataTables_length" id="DataTables_Table_0_length">
-                                <label>Show 
-                                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> entries
-                                </label>
-                            </div>
-                            <div >
-                                <button className='cardsBoxShadow btn'>
-                                    <img src={FilterIcon} alt='FilterIcon'/>
-                                </button>
-                            </div>
-                        </div>
-                        <div>
-                            <table className='table-content border'>
-                                <thead className='align-items-center'>
-                                    <tr>
-                                        <th>Order Id</th>
-                                        <th>Purchase Date</th>
-                                        <th>View Order Details</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        (orderListArray || []).map((item, key) => {
-                                            return <tr key = {key}>
-                                                    <td className="">{item.id}</td>
-                                                    <td className="">{ moment(item.created_at).format("DD/MM/YYYY")}</td>
-                                                    <td>
-                                                        <div className="action-items">
-                                                            <button className='cardsBoxShadow'>
-                                                                <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                        })
-                                    }   
-                                </tbody>
-                            </table>
-                            <div className='table-footer'>
-                                <div className='table-data-count'>
-                                    <span>Showing 1 to 10 of 10 entries</span>
-                                </div>
-                                <div className='table-page-count'>
-                                    <button className='cardsBoxShadow'>Previous</button>
-                                    <span>10</span>
-                                    <button className='cardsBoxShadow'>Next</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className='table-container'>
+                    <TableContainer component={Paper} sx={{ maxHeight:550 }}>
+                    { loader ? <div className='loader-class'><Loader type="Circles" color='#32BDEA' height={100} width={100}/></div> : 
+                        <Table sx={{ minWidth: 700 }} stickyHeader>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align="center">Order Id / Invoice Number</StyledTableCell>
+                                    <StyledTableCell align="center">Purchase Date</StyledTableCell>
+                                    <StyledTableCell align="left">Action</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {productListArray.map((row,key) => (
+                                <StyledTableRow key={key}>
+                                    <StyledTableCell align="center">{row.id}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.created_at}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <div className='flex unset-justify-content flex-gap10'>
+                                            <button className='cardsBoxShadow btn'>
+                                                <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
+                                            </button>
+                                            <button className='cardsBoxShadow btn'>
+                                                <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
+                                            </button>
+                                        </div>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    }
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[]}
+                        component="div"
+                        count={totalRecord}
+                        rowsPerPage={10}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                 </div>
             </div>
             </IconContext.Provider>

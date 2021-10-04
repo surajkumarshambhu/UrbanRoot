@@ -25,6 +25,18 @@
     align-items: center;
 }
 
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 5px;
+  gap: 10px;
+  background-color: #32BDEA;
+  padding: 12px;
+  border-color: #32BDEA;
+  border: none;
+  border-radius: 10px;
+}
 
 .btn-primary-style{
     display: flex;
@@ -35,4 +47,88 @@
     padding: 12px;
     border: none;
     border-radius: 10px;
+}
+
+h4{
+  font-family: "Lato",sans-serif;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1;
+  color: #110A57;
+  font-size: 1.44em;
+  margin-top: 0;
+}
+
+.content-page{
+  padding:20px;
+}
+
+h3{
+  margin: 0;
+}
+
+th,td{
+  padding: 15px 20px;
+}
+
+img{
+  width: 50px;
+  border-radius: 10px;
+}
+
+label{
+  display: inline-block;
+  color: #01041b;
+  margin-bottom: .5rem;
+}
+p{
+  margin: 0;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardboxshadows{
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%), 0 4px 8px 0 transparent;
+  background-color: var(--primary-white);
+}
+
+.flex-gap10{
+  gap: 10px;
+}
+
+.table-container{
+  margin-top: 20px;
+}
+.loader-class{
+  display: flex;
+  justify-content: center;
+}
+
+.unset-justify-content{
+  justify-content: unset;
+}
+
+.align-items-start{
+  align-items:start;
+}
+
+.form-group-col {
+  display: flex;
+  flex-direction: column;
+}
+.form-control {
+  height: 45px;
+  line-height: 45px;
+  background: #fff;
+  border: 1px solid #DCDFE8;
+  font-size: 14px;
+  color: #676E8A;
+  border-radius: 10px;
+  box-shadow: none;
+  margin-bottom: 1rem;
+  padding: 10px;
 }

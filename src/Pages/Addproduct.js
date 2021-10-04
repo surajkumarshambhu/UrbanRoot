@@ -11,7 +11,7 @@ const getProductListRequest = {
 };
 
 const styles={
-    addCategories:{
+    addCatagories:{
         backgroundColor: '#32BDEA' ,
         borderColor: '#32BDEA'
     },
@@ -34,10 +34,10 @@ function Addproduct() {
 
     const [categoryListArray, setCategoryListArray] = useState([]);
     useEffect(() => {
-        let url = "get-categories";
+        let url = "get-Catagories";
         ApiHelper(url,getProductListRequest,'POST')
         .then(resposnse => {
-            setCategoryListArray(resposnse.data.categories_list)
+            setCategoryListArray(resposnse.data.Catagories_list)
         })
     }, []);
 
@@ -115,13 +115,13 @@ function Addproduct() {
     }
 
     return (
-        <div className='add-categories-container'>
-                <div className='add-categories-container-header'>
+        <div className='add-Catagories-container'>
+                <div className='add-Catagories-container-header'>
                     <h4>Add Product</h4>
                 </div>
-                <div className='add-categories-container-body'>
+                <div className='add-Catagories-container-body'>
                     <form onSubmit={(e) => submit(e)} onReset={(e) => reset(e)}>
-                        <div className='add-categories-container-items'>
+                        <div className='add-Catagories-container-items'>
                             <div className='form-group-col'>
                                 <label>Category *</label>
                                 <select className="form-control" required="required" id = 'category'  onChange={(e) => handle(e)} >
@@ -177,7 +177,7 @@ function Addproduct() {
                             </div>
                         </div>
                         <div className='form-group-row'>
-                            <button type="submit" className="btn-primary-style" style={styles.addCategories} disabled={loader.loader}>
+                            <button type="submit" className="btn-primary-style" style={styles.addCatagories} disabled={loader.loader}>
                                 {
                                     loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
                                 }

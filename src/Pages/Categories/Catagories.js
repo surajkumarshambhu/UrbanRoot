@@ -1,13 +1,12 @@
-import React, {useState,useEffect} from 'react'
+import React, { useEffect,useState } from 'react'
 import { styled } from '@mui/material/styles';
 import { IconContext } from 'react-icons/lib';
-import * as CONSTANT from '../Helper/Constant';
 import * as AiIcons from 'react-icons/ai';
-import TestImage from '../Images/testimage.jpeg';
 import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
        TableHead, TableRow, Paper, Grid, TablePagination} from '@mui/material';
-import { ApiHelper } from '../Helper/APIHelper';
 import Loader from 'react-loader-spinner';
+import { ApiHelper } from '../../Helper/APIHelper';
+import * as CONSTANT from '../../Helper/Constant';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -30,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-const Productlist = () => {
+const Catagories = () => {
 
     const [page, setPage] = React.useState(0);
     const [loader, setLoader] = useState(false)
@@ -40,10 +39,10 @@ const Productlist = () => {
     useEffect(() => {
         setLoader(true)
         const requestBody = {request: {no_of_records:CONSTANT.NUMBEROFITEMS,page_number:page + 1}}
-        let url = "get-products";
+        let url = "get-categories";
         ApiHelper(url,requestBody,'POST')
         .then(resposnse => {
-            setProductListArray(resposnse.data.product_list)
+            setProductListArray(resposnse.data.categories_list)
             setTotalRecord(resposnse.data.total_records);
             setLoader(false)
         })
@@ -65,14 +64,14 @@ const Productlist = () => {
             <div className='content-page'>
                 <div className='flex'>
                     <div>
-                            <h4>Product List</h4>
-                            <p>The product list effectively dictates product presentation and provides space <br/> 
-                            to list your products and offering in the most appealing way.</p>
+                            <h4>Catagory List</h4>
+                            <p>Use category list as to describe your overall core business from the provided list.<br/> 
+                            Click Add Category to add more categories.</p>
                     </div>
                     <div className='flex flex-gap10'>
                         <button className='btn'>
                             <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
-                            <span>Add Product</span>
+                            <span>Add Catagory</span>
                         </button>
                         <button className='btn'>
                             <AiIcons.AiOutlineFilter></AiIcons.AiOutlineFilter>
@@ -86,35 +85,16 @@ const Productlist = () => {
                         <Table sx={{ minWidth: 700 }} stickyHeader>
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell>Product</StyledTableCell>
-                                    <StyledTableCell align="center">Product Code</StyledTableCell>
-                                    <StyledTableCell align="center">Price</StyledTableCell>
-                                    <StyledTableCell align="center">Brand Name</StyledTableCell>
-                                    <StyledTableCell align="center">HSN Code</StyledTableCell>
-                                    <StyledTableCell align="center">Quantity</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
+                                    <StyledTableCell>Catagories</StyledTableCell>
+                                    <StyledTableCell >Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                             {productListArray.map((row,key) => (
                                 <StyledTableRow key={key}>
-                                    <StyledTableCell align="center">
-                                        <Grid container gap="10px">
-                                            <Grid item>
-                                                <img src={TestImage} alt='imageicon' />
-                                            </Grid>
-                                            <Grid item >
-                                                {row.product_name}
-                                            </Grid>
-                                        </Grid>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.barcode}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.cost}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.brand_name}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.hsn_code}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.quantity}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <div className='flex'>
+                                    <StyledTableCell align="left">{row.category}</StyledTableCell>
+                                    <StyledTableCell >
+                                        <div className='flex unset-justify-content flex-gap10'>
                                             <button className='cardsBoxShadow btn'>
                                                 <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                             </button>
@@ -148,4 +128,5 @@ const Productlist = () => {
     )
 }
 
-export default Productlist;
+
+export default Catagories;

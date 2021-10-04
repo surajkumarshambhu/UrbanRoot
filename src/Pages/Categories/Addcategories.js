@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { ApiHelper } from '../../Helper/APIHelper'
 
 const styles={
-    addCategories:{
+    addCatagories:{
         backgroundColor: '#32BDEA' ,
         borderColor: '#32BDEA'
     },
@@ -20,7 +20,7 @@ const styles={
     },
 }
 
-function Addcategories() {
+function AddCatagories() {
     const history = useHistory();
     const [loader, setLoader] = useState({
         loader: false,
@@ -53,7 +53,7 @@ function Addcategories() {
         let url = "add-category";
         ApiHelper(url,postData,'POST')
         .then(resposnse => {
-            history.push("/categories");
+            history.push("/Catagories");
             setLoader({
                 loader: false
             })
@@ -61,13 +61,13 @@ function Addcategories() {
     }
 
     return (
-        <div className='add-categories-container'>
-                <div className='add-categories-container-header'>
+        <div className='add-Catagories-container'>
+                <div className='add-Catagories-container-header'>
                     <h4>Add Category</h4>
                 </div>
-                <div className='add-categories-container-body'>
+                <div className='add-Catagories-container-body'>
                     <form onSubmit={(e) => submit(e)}>
-                        <div className='add-categories-container-items'>
+                        <div className='add-Catagories-container-items'>
                             {/* <div className='col-100'>
                                 <div className='form-group'>
                                     <label>Image</label>
@@ -79,7 +79,7 @@ function Addcategories() {
                                 <input type="text" className="form-control" placeholder="Enter Category" required="required" onChange={(e) => handle(e)} id = 'category' value={formData.category}/>
                             </div>
                             <div className='form-group-row'>
-                                <button type="submit" className="btn-primary-style" style={styles.addCategories} disabled={loader.loader}>
+                                <button type="submit" className="btn-primary-style" style={styles.addCatagories} disabled={loader.loader}>
                                     {
                                         loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
                                     }
@@ -96,4 +96,4 @@ function Addcategories() {
     )
 }
 
-export default Addcategories
+export default AddCatagories
