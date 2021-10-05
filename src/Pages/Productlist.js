@@ -5,7 +5,7 @@ import * as CONSTANT from '../Helper/Constant';
 import * as AiIcons from 'react-icons/ai';
 import TestImage from '../Images/testimage.jpeg';
 import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
-       TableHead, TableRow, Paper, Grid, TablePagination} from '@mui/material';
+       TableHead, TableRow, Paper, Grid, TablePagination,Dialog,Button,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
 import { ApiHelper } from '../Helper/APIHelper';
 import Loader from 'react-loader-spinner';
 
@@ -36,6 +36,29 @@ const Productlist = () => {
     const [loader, setLoader] = useState(false)
     const [productListArray, setProductListArray] = useState([]);
     const [totalRecord, setTotalRecord] = useState(0);
+    const [open, setOpen] = React.useState(false);
+    const [toDeleteCode, setDeleteCode] = React.useState("");
+
+    const handleClickOpen = (e,data) => {
+        setOpen(true);
+        setDeleteCode(data)
+    };
+    
+    const handleClose = () => {
+        setOpen(false);
+        setDeleteCode('')
+    };
+
+    const handleAgreeClose = () => {
+        const requestBody = {request: {id:toDeleteCode}}
+        let url = "delete-product";
+        ApiHelper(url,requestBody,'POST')
+        .then(resposnse => {
+            setPage(0)
+        })
+        setOpen(false);
+    };
+
 
     useEffect(() => {
         setLoader(true)
@@ -49,8 +72,6 @@ const Productlist = () => {
         })
     }, [page]);
 
-
-    console.log("entry1 " + page)
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -61,7 +82,28 @@ const Productlist = () => {
 
     return (
         <>
-        <IconContext.Provider value={{ color: '#fff',size: '20px' }}>
+            <IconContext.Provider value={{ color: '#fff',size: '20px' }}>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                <DialogTitle id="alert-dialog-title">
+                    {"Are you sure you want to delete this product?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete this product? This operation will lead to permanent deletion of the selected product.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={handleAgreeClose} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+                </Dialog>
             <div className='content-page'>
                 <div className='flex'>
                     <div>
@@ -118,7 +160,7 @@ const Productlist = () => {
                                             <button className='cardsBoxShadow btn'>
                                                 <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                             </button>
-                                            <button className='cardsBoxShadow btn'>
+                                            <button className='cardsBoxShadow btn' onClick={(e) => handleClickOpen(e,row.id)}>
                                                 <AiIcons.AiOutlineDelete></AiIcons.AiOutlineDelete>
                                             </button>
                                             <button className='cardsBoxShadow btn'>
