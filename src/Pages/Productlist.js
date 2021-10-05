@@ -7,6 +7,7 @@ import TestImage from '../Images/testimage.jpeg';
 import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
        TableHead, TableRow, Paper, Grid, TablePagination,Dialog,Button,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
 import { ApiHelper } from '../Helper/APIHelper';
+import Printbarcode from '../Print/Printbarcode';
 import Loader from 'react-loader-spinner';
 
 
@@ -19,6 +20,20 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
 },
 }));
+
+const styles={
+    active:{
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center"
+    },
+    notActive:{
+        display: "none",
+    },
+    barCodeClose:{
+        
+      }
+}
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
@@ -38,6 +53,11 @@ const Productlist = () => {
     const [totalRecord, setTotalRecord] = useState(0);
     const [open, setOpen] = React.useState(false);
     const [toDeleteCode, setDeleteCode] = React.useState("");
+    const [showPrintDiv, setPrintDiv] = useState(false);
+    const [barcode, setBarcode] =useState({
+       code:'',
+       mrp:''
+    })
 
     const handleClickOpen = (e,data) => {
         setOpen(true);
@@ -79,6 +99,19 @@ const Productlist = () => {
     const handleChangeRowsPerPage = (event) => {
        
     };
+
+    function hidePrintDiv(){
+        setPrintDiv(false);
+    }
+
+    function printData(barcode,mrp){
+        const newData  = ({
+            code: barcode,
+            mrp: mrp
+         })
+        setBarcode(newData)
+        setPrintDiv(true);
+    }
 
     return (
         <>
@@ -122,68 +155,78 @@ const Productlist = () => {
                         </button>
                     </div>
                 </div>
-                <div className='table-container'>
-                    <TableContainer component={Paper} sx={{ maxHeight:550 }}>
-                    { loader ? <div className='loader-class'><Loader type="Circles" color='#32BDEA' height={100} width={100}/></div> : 
-                        <Table sx={{ minWidth: 700 }} stickyHeader>
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell>Product</StyledTableCell>
-                                    <StyledTableCell align="center">Product Code</StyledTableCell>
-                                    <StyledTableCell align="center">Price</StyledTableCell>
-                                    <StyledTableCell align="center">Brand Name</StyledTableCell>
-                                    <StyledTableCell align="center">HSN Code</StyledTableCell>
-                                    <StyledTableCell align="center">Quantity</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                            {productListArray.map((row,key) => (
-                                <StyledTableRow key={key}>
-                                    <StyledTableCell align="center">
-                                        <Grid container gap="10px">
-                                            <Grid item>
-                                                <img src= {row.file_path === null ? TestImage :row.file_path } alt='imageicon' />
+                {
+                    showPrintDiv === false ? <></> :  
+                    <div style = {showPrintDiv === false ? styles.notActive : styles.active} className='print-barcode-div'>
+                        <Printbarcode barcodeData={barcode.code} mrp = {barcode.mrp} ></Printbarcode>
+                        <button style={styles.barCodeClose} onClick={(e) => hidePrintDiv()}>Close</button>
+                    </div>
+                }
+                {
+                    showPrintDiv === true ? <></> :  
+                    <div className='table-container'>
+                        <TableContainer component={Paper} sx={{ maxHeight:550 }}>
+                        { loader ? <div className='loader-class'><Loader type="Circles" color='#32BDEA' height={100} width={100}/></div> : 
+                            <Table sx={{ minWidth: 700 }} stickyHeader>
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell>Product</StyledTableCell>
+                                        <StyledTableCell align="center">Product Code</StyledTableCell>
+                                        <StyledTableCell align="center">Price</StyledTableCell>
+                                        <StyledTableCell align="center">Brand Name</StyledTableCell>
+                                        <StyledTableCell align="center">HSN Code</StyledTableCell>
+                                        <StyledTableCell align="center">Quantity</StyledTableCell>
+                                        <StyledTableCell align="center">Action</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {productListArray.map((row,key) => (
+                                    <StyledTableRow key={key}>
+                                        <StyledTableCell align="center">
+                                            <Grid container gap="10px">
+                                                <Grid item>
+                                                    <img src= {row.file_path === null ? TestImage :row.file_path } alt='imageicon' />
+                                                </Grid>
+                                                <Grid item >
+                                                    {row.product_name}
+                                                </Grid>
                                             </Grid>
-                                            <Grid item >
-                                                {row.product_name}
-                                            </Grid>
-                                        </Grid>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.barcode}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.cost}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.brand_name}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.hsn_code}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.quantity}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <div className='flex'>
-                                            <button className='cardsBoxShadow btn'>
-                                                <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
-                                            </button>
-                                            <button className='cardsBoxShadow btn' onClick={(e) => handleClickOpen(e,row.id)}>
-                                                <AiIcons.AiOutlineDelete></AiIcons.AiOutlineDelete>
-                                            </button>
-                                            <button className='cardsBoxShadow btn'>
-                                                <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
-                                            </button>
-                                        </div>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
-                    }
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[]}
-                        component="div"
-                        count={totalRecord}
-                        rowsPerPage={10}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </div>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">{row.barcode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.cost}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.brand_name}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.hsn_code}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.quantity}</StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <div className='flex'>
+                                                <button className='cardsBoxShadow btn'>
+                                                    <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
+                                                </button>
+                                                <button className='cardsBoxShadow btn' onClick={(e) => handleClickOpen(e,row.id)}>
+                                                    <AiIcons.AiOutlineDelete></AiIcons.AiOutlineDelete>
+                                                </button>
+                                                <button className='cardsBoxShadow btn'>
+                                                    <AiIcons.AiOutlinePrinter onClick={(e) => printData(row.barcode,row.cost)}></AiIcons.AiOutlinePrinter>
+                                                </button>
+                                            </div>
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                                </TableBody>
+                            </Table>
+                        }
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[]}
+                            component="div"
+                            count={totalRecord}
+                            rowsPerPage={10}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </div>
+                }
             </div>
         </IconContext.Provider>
         </>
