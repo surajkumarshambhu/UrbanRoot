@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import { IconContext } from 'react-icons/lib';
 import * as CONSTANT from '../Helper/Constant';
 import * as AiIcons from 'react-icons/ai';
+import { useHistory } from 'react-router';
 import TestImage from '../Images/testimage.jpeg';
 import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
        TableHead, TableRow, Paper, Grid, TablePagination,Dialog,Button,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
@@ -47,6 +48,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Productlist = () => {
 
+    const history = useHistory();
     const [page, setPage] = React.useState(0);
     const [loader, setLoader] = useState(false)
     const [productListArray, setProductListArray] = useState([]);
@@ -56,7 +58,8 @@ const Productlist = () => {
     const [showPrintDiv, setPrintDiv] = useState(false);
     const [barcode, setBarcode] =useState({
        code:'',
-       mrp:''
+       mrp:'',
+       doe:''
     })
 
     const handleClickOpen = (e,data) => {
@@ -104,13 +107,18 @@ const Productlist = () => {
         setPrintDiv(false);
     }
 
-    function printData(barcode,mrp){
+    function printData(barcode,mrp,doe){
         const newData  = ({
             code: barcode,
-            mrp: mrp
+            mrp: mrp,
+            doe: doe
          })
         setBarcode(newData)
         setPrintDiv(true);
+    }
+
+    function navigate(){
+        history.push("/Addproduct");
     }
 
     return (
@@ -145,7 +153,7 @@ const Productlist = () => {
                             to list your products and offering in the most appealing way.</p>
                     </div>
                     <div className='flex flex-gap10'>
-                        <button className='btn'>
+                        <button className='btn' onClick={()=>navigate()}>
                             <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
                             <span>Add Product</span>
                         </button>
@@ -158,7 +166,7 @@ const Productlist = () => {
                 {
                     showPrintDiv === false ? <></> :  
                     <div style = {showPrintDiv === false ? styles.notActive : styles.active} className='print-barcode-div'>
-                        <Printbarcode barcodeData={barcode.code} mrp = {barcode.mrp} ></Printbarcode>
+                        <Printbarcode barcodeData={barcode.code} mrp = {barcode.mrp} doe={barcode.doe} ></Printbarcode>
                         <button style={styles.barCodeClose} onClick={(e) => hidePrintDiv()}>Close</button>
                     </div>
                 }
@@ -206,7 +214,7 @@ const Productlist = () => {
                                                     <AiIcons.AiOutlineDelete></AiIcons.AiOutlineDelete>
                                                 </button>
                                                 <button className='cardsBoxShadow btn'>
-                                                    <AiIcons.AiOutlinePrinter onClick={(e) => printData(row.barcode,row.cost)}></AiIcons.AiOutlinePrinter>
+                                                    <AiIcons.AiOutlinePrinter onClick={(e) => printData(row.barcode,row.cost,row.expiry_date)}></AiIcons.AiOutlinePrinter>
                                                 </button>
                                             </div>
                                         </StyledTableCell>

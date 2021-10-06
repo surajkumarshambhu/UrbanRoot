@@ -50,17 +50,21 @@ function CalculateBill() {
         customer_name: "",
         contact_number: "",
     })
+    const [totalFormData,setTotalFormData] = useState({
+        subtotal:0.0,
+        discount:0.0,
+        total:0.0,
+    })
+    const [disc,setDisc] = useState(0.0)
 
     function handleFormData(e){
         const newData = {...formData}
         newData[e.target.id] = e.target.value
         setFormData(newData)
-        console.log(formData);
     }
 
     function handle(e){
         setProductCode(e.target.value)
-        console.log(e.target.value);
     }
 
     function submit(e){
@@ -96,6 +100,18 @@ function CalculateBill() {
                 setOrderDetails(
                     resposnse.data
                 )
+                setTotalFormData({
+                    subtotal:resposnse.data.sub_total,
+                    discount:0.0,
+                    total:resposnse.data.sub_total,
+                })
+            }
+            else if(resposnse.data.details.length === 0){
+                setTotalFormData({
+                    subtotal:resposnse.data.sub_total,
+                    discount:0.0,
+                    total:resposnse.data.sub_total,
+                }) 
             }
             setLoadTable(false)
         })
@@ -113,7 +129,15 @@ function CalculateBill() {
             setLoader({
                 loader:true
             })
-            const requestBody = {request: {customer_name:formData.customer_name,customer_contact:formData.customer_contact,product:barcodeItems}}
+            const requestBody = {request: {
+                customer_name:formData.customer_name,
+                customer_contact:formData.contact_number,
+                sub_total:totalFormData.subtotal,
+                Discount:totalFormData.discount,
+                total:totalFormData.total,
+                product:barcodeItems
+            }}
+            console.log(requestBody)
             let url = "save-orders";
             ApiHelper(url,requestBody,'POST')
             .then(resposnse => {
@@ -159,6 +183,22 @@ function CalculateBill() {
             }
         })
     }
+
+    function handleDisChange(e){
+        setDisc(e.target.value)
+        if(disc < 0){
+            setDisc(0.0)
+        }
+    }
+
+    useEffect(() => {
+        let total = totalFormData.subtotal - disc
+        setTotalFormData({
+            subtotal: totalFormData.subtotal,
+            discount:disc,
+            total: total
+        })
+    },[disc])
 
     return (
         <>
@@ -235,13 +275,29 @@ function CalculateBill() {
                                         <StyledTableCell align="left">{row.price}</StyledTableCell>
                                         <StyledTableCell >
                                             <div className='flex unset-justify-content flex-gap10'>
-                                                <button className='cardsBoxShadow btn' disabled={saved} onClick={(e) => deleteSelectedProduct(row.barcode)}>
+                                                <button className='cardsBoxShadow btn'  onClick={(e) => deleteSelectedProduct(row.barcode)}>
                                                     <AiIcons.AiOutlineDelete></AiIcons.AiOutlineDelete>
                                                 </button>
                                             </div>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
+                                <TableRow>
+                                    <TableCell colSpan={3} align="right">Subtotal : </TableCell>
+                                    <TableCell colSpan={2}  align="center">{totalFormData.subtotal}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan={3} align="right">Discount : </TableCell>
+                                    <TableCell colSpan={2}  align="center">
+                                        <form >
+                                            <input type="text" className="form-control" placeholder="" onChange={(e) => handleDisChange(e)} id = 'disc' value={totalFormData.discount} />
+                                        </form>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan={3} align="right">Total : </TableCell>
+                                    <TableCell colSpan={2}  align="center">{totalFormData.total}</TableCell>
+                                </TableRow>
                                 </TableBody>
                             </Table>
                         }
