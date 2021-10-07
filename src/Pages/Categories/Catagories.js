@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import { IconContext } from 'react-icons/lib';
 import * as AiIcons from 'react-icons/ai';
 import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
-       TableHead, TableRow, Paper, Grid, TablePagination} from '@mui/material';
+       TableHead, TableRow, Paper, TablePagination,Dialog,Button,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
 import Loader from 'react-loader-spinner';
 import { ApiHelper } from '../../Helper/APIHelper';
 import * as CONSTANT from '../../Helper/Constant';
@@ -35,6 +35,8 @@ const Catagories = () => {
     const [loader, setLoader] = useState(false)
     const [productListArray, setProductListArray] = useState([]);
     const [totalRecord, setTotalRecord] = useState(0);
+    const [open, setOpen] = React.useState(false);
+    const [idToDelete, setToDelete] = React.useState("");
 
     useEffect(() => {
         setLoader(true)
@@ -48,6 +50,25 @@ const Catagories = () => {
         })
     }, [page]);
 
+    const handleClickOpen = (e,data) => {
+        setOpen(true);
+        setToDelete(data)
+    };
+    
+    const handleClose = () => {
+        setOpen(false);
+        setToDelete("");
+    };
+
+    const handleAgreeClose = () => {
+        const requestBody = {request: {id: idToDelete}} ;console.log(requestBody);
+        let url = "delete-category";
+        ApiHelper(url,requestBody,'POST')
+        .then(resposnse => {
+            setPage(0)
+        })
+        setOpen(false);
+    };
 
     console.log("entry1 " + page)
     const handleChangePage = (event, newPage) => {
@@ -61,6 +82,27 @@ const Catagories = () => {
     return (
         <>
         <IconContext.Provider value={{ color: '#fff',size: '20px' }}>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+            <DialogTitle id="alert-dialog-title">
+                {"Are you sure you want to delete this product?"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Are you sure you want to delete this product? This operation will lead to permanent deletion of the selected product.
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Disagree</Button>
+                <Button onClick={handleAgreeClose} autoFocus>
+                    Agree
+                </Button>
+            </DialogActions>
+            </Dialog>
             <div className='content-page'>
                 <div className='flex'>
                     <div>
@@ -98,11 +140,8 @@ const Catagories = () => {
                                             <button className='cardsBoxShadow btn'>
                                                 <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                             </button>
-                                            <button className='cardsBoxShadow btn'>
+                                            <button className='cardsBoxShadow btn' onClick={(e) => handleClickOpen(e,row.id)}>
                                                 <AiIcons.AiOutlineDelete></AiIcons.AiOutlineDelete>
-                                            </button>
-                                            <button className='cardsBoxShadow btn'>
-                                                <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
                                             </button>
                                         </div>
                                     </StyledTableCell>

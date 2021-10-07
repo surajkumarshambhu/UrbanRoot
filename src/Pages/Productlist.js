@@ -117,6 +117,11 @@ const Productlist = () => {
         setPrintDiv(true);
     }
 
+    function handleEditOption(e,data){
+        localStorage.setItem('editId', data);
+        history.push("/Editproduct");
+    }
+
     function navigate(){
         history.push("/Addproduct");
     }
@@ -207,7 +212,7 @@ const Productlist = () => {
                                         <StyledTableCell align="center">{row.quantity}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <div className='flex'>
-                                                <button className='cardsBoxShadow btn'>
+                                                <button className='cardsBoxShadow btn' onClick={(e) => handleEditOption(e,row.barcode)}>
                                                     <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                                 </button>
                                                 <button className='cardsBoxShadow btn' onClick={(e) => handleClickOpen(e,row.id)}>

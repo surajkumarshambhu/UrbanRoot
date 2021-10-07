@@ -41,7 +41,6 @@ function CalculateBill() {
         loader: false,
     })
     const [productListArray, setProductListArray] = useState([]);
-    const [orderDetails, setOrderDetails] = useState([]);
     const [productCode, setProductCode] = useState('');
     const [loadTable, setLoadTable] = useState(false)
     const [barcodeItems, setBarcodeItems] = useState([]);
@@ -97,9 +96,6 @@ function CalculateBill() {
                 setProductListArray(
                     resposnse.data.details
                 )
-                setOrderDetails(
-                    resposnse.data
-                )
                 setTotalFormData({
                     subtotal:resposnse.data.sub_total,
                     discount:0.0,
@@ -125,7 +121,7 @@ function CalculateBill() {
     }
 
     function save(){
-        if (barcodeItems.length != 0){
+        if (barcodeItems.length !== 0){
             setLoader({
                 loader:true
             })

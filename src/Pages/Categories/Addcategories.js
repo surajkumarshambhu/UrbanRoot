@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import Loader from 'react-loader-spinner'
 import { useHistory } from 'react-router';
 import { ApiHelper } from '../../Helper/APIHelper'

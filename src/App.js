@@ -9,9 +9,9 @@ import CalculateBill from './Pages/Bill/CalculateBill';
 import Getorders from './Pages/GetpurchaseOrder.js/Getorders';
 import AddCatagories from './Pages/Categories/Addcategories';
 import Catagories from './Pages/Categories/Catagories';
-import { useState } from 'react';
 import Login from './Authentication/Login';
 import { Protectedroutes } from './Helper/Protectedroutes';
+import Editproducts from './Pages/Editproducts';
 
 function App() {
 
@@ -30,6 +30,7 @@ function App() {
             <Protectedroutes path='/Addproduct' exact component={Addproduct} />
             <Protectedroutes path='/Calulatebill' exact component={CalculateBill} />
             <Protectedroutes path='/Getorders' exact component={Getorders} />
+            <Protectedroutes path='/Editproduct' exact component={Editproducts} />
           </Switch>
         </Router>
       </div>

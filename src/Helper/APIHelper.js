@@ -1,5 +1,4 @@
 import * as CONSTANT from '../Helper/Constant';
-import { Route, Redirect } from "react-router-dom";
 
 export function ApiHelper(url, data = {}, method = 'GET') {
     let bearer ='';
@@ -27,6 +26,6 @@ export function ApiHelper(url, data = {}, method = 'GET') {
         }
         return result;
     }, (error) => {
-        error = error;
+        
     })
 }

@@ -1,4 +1,4 @@
-import React, {useState,useEffect,Component} from 'react'
+import React, {useState,useEffect} from 'react'
 import Graph from '../../Graph/graph';
 import { ApiHelper } from '../../Helper/APIHelper';
 import './Dashboard.css';
