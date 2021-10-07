@@ -20,7 +20,6 @@ function App() {
       <Navbar></Navbar>
       <Sidebar></Sidebar>
       <div id="main">
-        <div id="container-8e9e8329fe257319c409df241fc07027"></div>
         <Router>
           <Switch>
             <Route path='/' exact component={Login} />
