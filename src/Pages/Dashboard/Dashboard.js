@@ -14,7 +14,7 @@ const Dashboard = () => {
         .then(resposnse => {
             setDashboard(resposnse.data);
         })
-    });
+    },[]);
 
     return (
         <>
