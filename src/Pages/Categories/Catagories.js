@@ -6,7 +6,9 @@ import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
        TableHead, TableRow, Paper, TablePagination,Dialog,Button,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
 import Loader from 'react-loader-spinner';
 import { ApiHelper } from '../../Helper/APIHelper';
+import { useHistory } from 'react-router';
 import * as CONSTANT from '../../Helper/Constant';
+import { PermPhoneMsg } from '@mui/icons-material';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -31,6 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Catagories = () => {
 
+    const history = useHistory();
     const [page, setPage] = React.useState(0);
     const [loader, setLoader] = useState(false)
     const [productListArray, setProductListArray] = useState([]);
@@ -79,6 +82,16 @@ const Catagories = () => {
        
     };
 
+    function handleEditOption(e,data){
+        localStorage.setItem('editId', data);
+        console.log(data)
+        history.push("/Editcatagories");
+    }
+
+    function navigate(){
+        history.push("/AddCatagories");
+    }
+
     return (
         <>
         <IconContext.Provider value={{ color: '#fff',size: '20px' }}>
@@ -89,11 +102,11 @@ const Catagories = () => {
                 aria-describedby="alert-dialog-description"
             >
             <DialogTitle id="alert-dialog-title">
-                {"Are you sure you want to delete this product?"}
+                {"Are you sure you want to delete this catagory?"}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to delete this product? This operation will lead to permanent deletion of the selected product.
+                    Are you sure you want to delete this catagory? This operation will lead to permanent deletion of the selected catagory.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -111,7 +124,7 @@ const Catagories = () => {
                             Click Add Category to add more categories.</p>
                     </div>
                     <div className='flex flex-gap10'>
-                        <button className='btn'>
+                        <button className='btn' onClick={()=>navigate()}>
                             <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
                             <span>Add Catagory</span>
                         </button>
@@ -137,7 +150,7 @@ const Catagories = () => {
                                     <StyledTableCell align="left">{row.category}</StyledTableCell>
                                     <StyledTableCell >
                                         <div className='flex unset-justify-content flex-gap10'>
-                                            <button className='cardsBoxShadow btn'>
+                                            <button className='cardsBoxShadow btn' onClick={(e) => handleEditOption(e,row.id)}>
                                                 <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                             </button>
                                             <button className='cardsBoxShadow btn' onClick={(e) => handleClickOpen(e,row.id)}>

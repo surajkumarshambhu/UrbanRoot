@@ -1,5 +1,6 @@
+import React, {useState} from 'react'
 import './Sidebar.css';
-import {useState} from 'react';
+import { useHistory } from 'react-router';
 import HomeIcon from '../Images/home.png'
 import * as AiIcons from 'react-icons/ai'
 import { IconContext } from 'react-icons/lib';
@@ -31,6 +32,7 @@ const styles={
 }
 
 const Sidebar = () =>{
+    const history = useHistory();
     const [active,setActive] = useState(false);
     const [links,showLinks] = useState(0);
     const handleActive = () =>{
@@ -52,6 +54,12 @@ const Sidebar = () =>{
         }
         
     }
+
+    function navigate(){
+        localStorage.removeItem('user');
+        history.push("/");
+    }
+
     return(
         <IconContext.Provider value={{ color: '#666E8A',size: '25px' }}>
         <div id="sidebar" className={active === true ? "active" : "notActive"}>
@@ -119,6 +127,12 @@ const Sidebar = () =>{
                         <a href="/Getorders">- List Purchase Orders</a>
                         <a href="/Calulatebill">- New Purchase</a>
                     </div>
+                </div>
+                <div className="noSub">
+                    <button className='logout' onClick={()=>navigate()}>
+                        <span className="icon"><AiIcons.AiOutlineLogout></AiIcons.AiOutlineLogout></span>
+                        <span style={active === true ? styles.active : styles.notActive}>Logout</span>
+                    </button>
                 </div>
             </div>
         </div>

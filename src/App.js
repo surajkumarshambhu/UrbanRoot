@@ -12,6 +12,7 @@ import Catagories from './Pages/Categories/Catagories';
 import Login from './Authentication/Login';
 import { Protectedroutes } from './Helper/Protectedroutes';
 import Editproducts from './Pages/Editproducts';
+import Editcatagories from './Pages/Categories/Editcatagories';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Protectedroutes path='/Calulatebill' exact component={CalculateBill} />
             <Protectedroutes path='/Getorders' exact component={Getorders} />
             <Protectedroutes path='/Editproduct' exact component={Editproducts} />
+            <Protectedroutes path='/Editcatagories' exact component={Editcatagories} />
           </Switch>
         </Router>
       </div>

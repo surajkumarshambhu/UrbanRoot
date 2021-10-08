@@ -86,3 +86,18 @@ a{
     background: #f4f5fa;
     border-radius: 0px 10px 10px 0px;
 }
+
+.logout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 5px;
+    grid-gap: 10px;
+    gap: 10px;
+    background-color: #32BDEA;
+    /* padding: 12px; */
+    /* border-color: #32BDEA; */
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+}

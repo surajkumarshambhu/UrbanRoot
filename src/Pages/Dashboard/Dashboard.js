@@ -10,9 +10,9 @@ const Dashboard = () => {
 
     useEffect(() => {
         let url = "dashboard";
-        ApiHelper(url,[])
+        ApiHelper(url,[],'POST')
         .then(resposnse => {
-            // setDashboard(resposnse.data);
+            setDashboard(resposnse.data);
         })
     });
 

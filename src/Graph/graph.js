@@ -7,11 +7,11 @@ const Graph = () =>{
       <div>
       <Line
         data={{
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: ['jan', 'feb', 'march', 'april', 'may', 'june', 'july', 'aug','sept','oct','nov','dec'],
           datasets: [
             {
-              label: '# of votes',
-              data: [12, 19, 3, 5, 2, 3],
+              label: '# of Products',
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 665],
               backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
