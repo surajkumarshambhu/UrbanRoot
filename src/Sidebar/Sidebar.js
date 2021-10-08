@@ -57,7 +57,7 @@ const Sidebar = () =>{
 
     function navigate(){
         localStorage.removeItem('user');
-        history.push("/");
+        window.location.reload();
     }
 
     return(
