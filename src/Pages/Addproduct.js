@@ -249,7 +249,7 @@ function Addproduct() {
                             </div>
                             <div className='form-group-col'>
                                 <label>Product Expiry Date *</label>
-                                <input type="date" className="form-control" placeholder="Enter expiry date" required="required" onChange={(e) => handle(e)} id = 'expiry_date' value={formData.expiry_date} onWheel={(e) => e.target.blur()}/>
+                                <input type="date" className="form-control" placeholder="Enter expiry date" onChange={(e) => handle(e)} id = 'expiry_date' value={formData.expiry_date} onWheel={(e) => e.target.blur()}/>
                             </div>
                             <div className='form-group-col'>
                                 <label>Description / Product Details *</label>
