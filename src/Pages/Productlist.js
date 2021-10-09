@@ -61,6 +61,12 @@ const Productlist = () => {
        mrp:'',
        doe:''
     })
+    const [formData,setFormData] = useState()
+
+    function handle(e){
+        setFormData(e.target.value)
+        console.log(formData)
+    }
 
     const handleClickOpen = (e,data) => {
         setOpen(true);
@@ -85,7 +91,8 @@ const Productlist = () => {
 
     useEffect(() => {
         setLoader(true)
-        const requestBody = {request: {no_of_records:CONSTANT.NUMBEROFITEMS,page_number:page + 1}}
+        const requestBody = {request: {no_of_records:CONSTANT.NUMBEROFITEMS,page_number:page + 1,query:formData}}
+        console.log(requestBody);
         let url = "get-products";
         ApiHelper(url,requestBody,'POST')
         .then(resposnse => {
@@ -126,6 +133,20 @@ const Productlist = () => {
         history.push("/Addproduct");
     }
 
+    function submit(){
+        setLoader(true)
+        const requestBody = {request: {no_of_records:CONSTANT.NUMBEROFITEMS,page_number:page + 1,query:formData}}
+        console.log(requestBody);
+        let url = "get-products";
+        ApiHelper(url,requestBody,'POST')
+        .then(resposnse => {
+            setProductListArray(resposnse.data.product_list)
+            setTotalRecord(resposnse.data.total_records);
+            setLoader(false)
+        })
+        setLoader(false)
+    }
+
     return (
         <>
             <IconContext.Provider value={{ color: '#fff',size: '20px' }}>
@@ -162,9 +183,13 @@ const Productlist = () => {
                             <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
                             <span>Add Product</span>
                         </button>
-                        <button className='btn'>
-                            <AiIcons.AiOutlineFilter></AiIcons.AiOutlineFilter>
-                            <span>Filter / Search</span>
+                        <div>
+                           <AiIcons.AiOutlineFilter></AiIcons.AiOutlineFilter>
+                           <input type="text" className="form-control unset-margin" placeholder="Filter / Search" onChange={(e) => handle(e)} value={formData}/>
+                        </div>
+                        <button className='btn' onClick={()=>submit()}>
+                            <AiIcons.AiOutlineSearch></AiIcons.AiOutlineSearch>
+                            <span>Search / Filter</span>
                         </button>
                     </div>
                 </div>
