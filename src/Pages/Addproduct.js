@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ApiHelper } from '../Helper/APIHelper'
 import Loader from 'react-loader-spinner';
+import { useHistory } from 'react-router';
 import axios from 'axios'
 import * as CONSTANT from '../Helper/Constant';
 
@@ -47,6 +48,7 @@ function Addproduct() {
         loader: false,
     })
 
+    const history = useHistory();
     const [productId,setproductId] = useState()
     const [formData,setFormData] = useState({
         id: '',
@@ -106,13 +108,12 @@ function Addproduct() {
         ApiHelper(url,postData,'POST')
         .then(resposnse => {
             if (resposnse.success === false){
-                console.log("flase");
                 setLoader({
                     loader: false
                  })
             }
             else{
-                console.log("true");
+                history.push("/productlist");
                 setproductId(resposnse.data.product_id)
                 setLoader({
                    loader: false
