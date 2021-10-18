@@ -206,7 +206,7 @@ function CalculateBill() {
                             <p>Urban Roots</p>
                             <p>Ward No. 4</p>
                             <p>Pnadu Barabazar</p>
-                            <p>Phone: 7002321056</p>
+                            <p>Phone: 8876998290</p>
                             <p>GST:- 18AOFPR680IZI</p>
                             <p>Date:- {new Date().toLocaleString()}</p>
                     </div>
