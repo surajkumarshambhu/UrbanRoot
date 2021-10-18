@@ -105,7 +105,7 @@ function Addproduct() {
         newData[e.target.id] = e.target.value
         setFormData(newData)
         if(e.target.id === 'category'){
-            if(e.target.value === "3"){
+            if(e.target.value === "38"){
                 setBarcode("")
                 setState(false)
                 setBarcodeType("1")
