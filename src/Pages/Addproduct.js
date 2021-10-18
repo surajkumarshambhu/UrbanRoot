@@ -148,6 +148,9 @@ function Addproduct() {
                     type:"error"
                 })
                 setOpen(true);
+                setLoader({
+                    loader: false
+                })
                 return
             }
         }

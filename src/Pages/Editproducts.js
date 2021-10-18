@@ -127,6 +127,9 @@ function Editproducts() {
                     message: "Please scan / Enter the compnay barcode",
                     type:"error"
                 })
+                setLoader({
+                    loader: false
+                })
                 setOpen(true);
                 return
             }
