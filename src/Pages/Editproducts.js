@@ -174,7 +174,7 @@ function Editproducts() {
                     barcode: resposnse.data.product_data[0].barcode,
                     barcode_type: resposnse.data.product_data[0].barcode_type
                 })
-                if(resposnse.data.product_data[0].categories_id === 3){
+                if(resposnse.data.product_data[0].categories_id === 38){
                     setBarcode("")
                     setState(false)
                 }
