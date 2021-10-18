@@ -86,7 +86,7 @@ function Editcatagories() {
 
     return (
         <div className='add-Catagories-container'>
-        <div className='add-Catagories-container-header'>
+        <div className=''>
             <h4>Edit Category</h4>
         </div>
         <div className='add-Catagories-container-body'>

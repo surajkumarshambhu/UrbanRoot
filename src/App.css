@@ -140,3 +140,25 @@ p{
 .unset-margin{
   margin-bottom:0
 }
+
+.flex-grow-2{
+  flex-grow: 2;
+}
+.flex-grow-1{
+  flex-grow: 1;
+}
+
+.flex-grow-4{
+  flex-grow: 4;
+}
+.flex-grow-3{
+  width: 50%;
+}
+
+.padding-10{
+  padding: 10px;
+}
+
+.text-align{
+  text-align:center;
+}

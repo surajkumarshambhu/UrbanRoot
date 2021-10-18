@@ -4,6 +4,14 @@ import Loader from 'react-loader-spinner';
 import { useHistory } from 'react-router';
 import axios from 'axios'
 import * as CONSTANT from '../Helper/Constant';
+import Switch from '@mui/material/Switch';
+import TextField from '@mui/material/TextField';
+import {Snackbar} from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const getProductListRequest = {
     "request":{
@@ -30,6 +38,9 @@ const styles={
     none:{
         display: "none",
     },
+    flex:{
+        display: "flex",
+    },
 }
 
 function Addproduct() {
@@ -50,6 +61,10 @@ function Addproduct() {
 
     const history = useHistory();
     const [productId,setproductId] = useState()
+    const [alertData,setAlertData] = useState({
+        message:"",
+        type:""
+    })
     const [formData,setFormData] = useState({
         id: '',
         category: '0',
@@ -64,26 +79,47 @@ function Addproduct() {
         brand_name: '',
         expiry_date:''
     })
-
+    const [barcodeType,setBarcodeType] = useState("2")
+    const [barcode,setBarcode] = useState("")
+    const [state, setState] = React.useState(true);
     const [fileData,setFileData] = useState({
         file: '',
         id: '0'
     })
+    const [open, setOpen] = useState(false);
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
-    const [showDiv,setShowDiv] = useState({
-        addButton: true,
-        uploadImage: false
-    })
+        setOpen(false);
+    };
+
+    function handleBarcodeChange(e) {
+        setBarcode(e.target.value)
+    }
 
     function handle(e){
         const newData = {...formData}
         newData[e.target.id] = e.target.value
         setFormData(newData)
+        if(e.target.id === 'category'){
+            if(e.target.value === '3'){
+                setBarcode("")
+                setState(false)
+                state == true ? setBarcodeType("1") : setBarcodeType("2")
+            }
+            else{
+                setState(true)
+                state == true ? setBarcodeType("1") : setBarcodeType("2")
+            }
+        }
     }
 
     function submit(e){
         setLoader({
-            loader: true
+            loader: false
         })
         e.preventDefault()
         const postData = 
@@ -100,10 +136,21 @@ function Addproduct() {
                 document_id: formData.document_id,
                 description: formData.description,
                 brand_name: formData.brand_name,
-                expiry_date: formData.expiry_date
+                expiry_date: formData.expiry_date,
+                barcode: barcodeType === '1' ? "" : barcode,
+                barcode_type: barcodeType,
             }
         }
-        console.log(formData);
+        if (barcodeType === "2"){
+            if (barcode === ""){
+                setAlertData({
+                    message: "Please scan / Enter the compnay barcode",
+                    type:"error"
+                })
+                setOpen(true);
+                return
+            }
+        }
         let url = "add-product";
         ApiHelper(url,postData,'POST')
         .then(resposnse => {
@@ -117,10 +164,6 @@ function Addproduct() {
                 setproductId(resposnse.data.product_id)
                 setLoader({
                    loader: false
-                })
-                setShowDiv({
-                    addButton: false,
-                    uploadImage: true
                 })
             }
         })
@@ -173,39 +216,24 @@ function Addproduct() {
         })
         console.log(fileData);
     }
-
-    useEffect(() => {
-        setLoader(true)
-        const requestBody = {request: {barcode:"000000200952"}}
-        let url = "get-product-details";
-        ApiHelper(url,requestBody,'POST')
-        .then(resposnse => {
-            if(resposnse.data.product_data.length > 0){
-                setFormData({
-                    id: resposnse.data.product_data[0].id,
-                    category: resposnse.data.product_data[0].categories_id,
-                    product_name:resposnse.data.product_data[0].product_name,
-                    cost: resposnse.data.product_data[0].cost,
-                    tax_method: 'Inclusive',
-                    tax: resposnse.data.product_data[0].tax,
-                    hsn_code: resposnse.data.product_data[0].hsn_code,
-                    quantity: resposnse.data.product_data[0].quantity,
-                    document_id: resposnse.data.product_data[0].document_id,
-                    description: resposnse.data.product_data[0].description,
-                    brand_name: resposnse.data.product_data[0].brand_name,
-                    expiry_date: resposnse.data.product_data[0].expiry_date
-                })
-            }
-        })
-    },[]);
-
+    
     return (
-        <div className='content-page'>
-                <div className='add-Catagories-container-header'>
+        <div className='content-page padding-10'>
+            <Snackbar open={open} 
+                autoHideDuration={1500} 
+                anchorOrigin={ {
+                vertical: 'bottom',
+                horizontal: 'right',
+                }} onClose={handleClose}
+            >
+                <Alert onClose={handleClose} severity={alertData.type} sx={{ width: '100%' }}>
+                    {alertData.message}
+                </Alert>
+            </Snackbar>
+            <div className='flex unset-justify-content align-items-start flex-gap10'>
+                <div className='flex-grow-4 cardboxshadows padding-10'>
                     <h4>Add Product</h4>
-                </div>
-                <div className='add-Catagories-container-body'>
-                    <form onSubmit={(e) => submit(e)} onReset={(e) => reset(e)}>
+                    <form onSubmit={(e) => submit(e)} onReset={(e) => reset(e)} className='flex-grow-4'>
                         <div className='add-Catagories-container-items'>
                             <div className='form-group-col'>
                                 <label>Category *</label>
@@ -257,37 +285,43 @@ function Addproduct() {
                                 <textarea className="form-control text-area" rows="4" onChange={(e) => handle(e)} id = 'description' value={formData.description}></textarea>
                             </div>
                         </div>
-                        {
-                            !showDiv.addButton ? <></> : <div className='flex unset-justify-content flex-gap10'>
-                                                            <button type="submit" className="btn-primary-style" style={styles.addCatagories} disabled={loader.loader}>
-                                                                {
-                                                                    loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
-                                                                }
-                                                                {
-                                                                    (loader.loader) === true ? "Adding" : "Add Product"
-                                                                }
-                                                            </button>
-                                                            <button type="reset" className="btn-primary-style" style={styles.delete}>Reset</button>
-                                                        </div>
-                        }
+                        <div className='flex unset-justify-content flex-gap10'>
+                            <button type="submit" className="btn-primary-style" style={styles.addCatagories} disabled={loader.loader}>
+                                {
+                                    loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
+                                }
+                                {
+                                    (loader.loader) === true ? "Adding" : "Add Product"
+                                }
+                            </button>
+                            <button type="reset" className="btn-primary-style" style={styles.delete}>Reset</button>
+                        </div>
                     </form>
-                    <br />
-                    {
-                        !showDiv.uploadImage ? <></> : <div className='form-group-col'>
-                                                        <div className='flex unset-justify-content flex-gap10'>
-                                                            <input type="file" className="form-control unset-line-height unset-margin" accept="image/*" onChange={(e) => fileSelectHandler(e)}></input>
-                                                            <button type="upload" className='btn' onClick={(e) => fileUploadHandler(e)} disabled={!showDiv.uploadImage} >
-                                                                {
-                                                                    loader.loader === true ? <Loader type="Circles" color="#ff" height={20} width={20}  /> : ""
-                                                                }
-                                                                {
-                                                                    (loader.loader) === true ? "Uploading" : "Upload Image"
-                                                                }
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                    }
                 </div>
+                <div className='flex-grow-3 cardboxshadows padding-10'>
+                        <h4>Add / Create Barcode</h4>
+                        <div>
+                            <div className='flex text-align'>
+                                <h2>Create your own barcode</h2>
+                                <Switch 
+                                    checked={state}
+                                    color="secondary"
+                                />
+                                <h2>Use compnay barcode</h2>
+                            </div>
+                            <div className='flex padding-10'  style={state == false ? styles.none : styles.flex}>
+                                <TextField
+                                    onChange={(e) => handleBarcodeChange(e)}
+                                    className='flex-grow-1 padding-10'
+                                    id="outlined-textarea"
+                                    label="Scan / Enter Barcode"
+                                    placeholder="Placeholder"
+                                    multiline
+                                />
+                            </div>
+                        </div>
+                </div>
+            </div>
         </div>
     )
 }
