@@ -50,7 +50,6 @@ function Addproduct() {
         let url = "get-categories";
         ApiHelper(url,getProductListRequest,'POST')
         .then(resposnse => {
-            console.log(resposnse)
             setCategoryListArray(resposnse.data.categories_list)
         })
     }, []);
@@ -101,25 +100,26 @@ function Addproduct() {
     }
 
     function handle(e){
+        e.preventDefault()
         const newData = {...formData}
         newData[e.target.id] = e.target.value
         setFormData(newData)
         if(e.target.id === 'category'){
-            if(e.target.value === '38'){
+            if(e.target.value === "3"){
                 setBarcode("")
                 setState(false)
-                state == true ? setBarcodeType("1") : setBarcodeType("2")
+                setBarcodeType("1")
             }
             else{
                 setState(true)
-                state == true ? setBarcodeType("1") : setBarcodeType("2")
+                setBarcodeType("2")
             }
         }
     }
 
     function submit(e){
         setLoader({
-            loader: false
+            loader: true
         })
         e.preventDefault()
         const postData = 
@@ -185,7 +185,6 @@ function Addproduct() {
         const fd = new FormData()
         fd.append("request[file]",fileData.file,fileData.file.name)
         fd.append("request[product_code]",productId)
-        console.log(fd)
         axios.post(CONSTANT.BASEURL + 'upload-doc',fd,{
             headers: {
                 'AcceptLanguage': 'en_US',
@@ -214,7 +213,6 @@ function Addproduct() {
             file:e.target.files[0],
             id:'0'
         })
-        console.log(fileData);
     }
     
     return (

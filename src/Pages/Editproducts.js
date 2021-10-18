@@ -98,9 +98,9 @@ function Editproducts() {
     }
 
     function submit(e){
-        // setLoader({
-        //     loader: true
-        // })
+        setLoader({
+            loader: true
+        })
         e.preventDefault()
         const postData = 
         {
@@ -118,7 +118,7 @@ function Editproducts() {
                 brand_name: formData.brand_name,
                 expiry_date: formData.expiry_date,
                 barcode: barcodeType === '1' ? formData.barcode : barcode,
-                barcode_type: formData.barcode_type
+                barcode_type: barcodeType
             }
         }
         if (barcodeType === "2"){
@@ -131,6 +131,7 @@ function Editproducts() {
                 return
             }
         }
+        console.log(postData)
         let url = "add-product";
         ApiHelper(url,postData,'POST')
         .then(resposnse => {
@@ -177,10 +178,12 @@ function Editproducts() {
                 if(resposnse.data.product_data[0].categories_id === 38){
                     setBarcode("")
                     setState(false)
+                    state == false ? setBarcodeType("1") : setBarcodeType("2")
                 }
                 else{
                     setBarcode(resposnse.data.product_data[0].barcode)
                     setState(true)
+                    state == false ? setBarcodeType("1") : setBarcodeType("2")
                 }
                 setPrintDiv(false);
             }
@@ -188,7 +191,6 @@ function Editproducts() {
                 setPrintDiv(false);
             }
         })
-        state == false ? setBarcodeType("1") : setBarcodeType("2")
     },[]);
     
     function fileSelectHandler(e){
