@@ -117,11 +117,11 @@ function Editproducts() {
                 description: formData.description,
                 brand_name: formData.brand_name,
                 expiry_date: formData.expiry_date,
-                barcode: barcodeType === '1' ? formData.barcode : barcode,
-                barcode_type: barcodeType
+                barcode: formData.barcode_type === '1' ? formData.barcode : barcode,
+                barcode_type: formData.barcode_type
             }
         }
-        if (barcodeType === "2"){
+        if (formData.barcode_type === "2"){
             if (barcode === ""){
                 setAlertData({
                     message: "Please scan / Enter the compnay barcode",
@@ -181,12 +181,10 @@ function Editproducts() {
                 if(resposnse.data.product_data[0].categories_id === 38){
                     setBarcode("")
                     setState(false)
-                    state == false ? setBarcodeType("1") : setBarcodeType("2")
                 }
                 else{
                     setBarcode(resposnse.data.product_data[0].barcode)
                     setState(true)
-                    state == false ? setBarcodeType("1") : setBarcodeType("2")
                 }
                 setPrintDiv(false);
             }
