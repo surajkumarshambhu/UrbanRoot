@@ -102,6 +102,7 @@ function Editproducts() {
             loader: true
         })
         e.preventDefault()
+        state == false ? setBarcodeType("1") : setBarcodeType("2")
         const postData = 
         {
             request: {
@@ -117,11 +118,11 @@ function Editproducts() {
                 description: formData.description,
                 brand_name: formData.brand_name,
                 expiry_date: formData.expiry_date,
-                barcode: formData.barcode_type === '1' ? formData.barcode : barcode,
-                barcode_type: formData.barcode_type
+                barcode: barcodeType === '1' ? formData.barcode : barcode,
+                barcode_type: barcodeType
             }
         }
-        if (formData.barcode_type === "2"){
+        if (barcodeType === "2"){
             if (barcode === ""){
                 setAlertData({
                     message: "Please scan / Enter the compnay barcode",
@@ -134,7 +135,6 @@ function Editproducts() {
                 return
             }
         }
-        console.log(postData)
         let url = "add-product";
         ApiHelper(url,postData,'POST')
         .then(resposnse => {
