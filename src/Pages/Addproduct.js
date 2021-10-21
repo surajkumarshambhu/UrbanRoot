@@ -47,7 +47,7 @@ function Addproduct() {
 
     const [categoryListArray, setCategoryListArray] = useState([]);
     useEffect(() => {
-        let url = "get-categories";
+        let url = "get-categories-add-screen";
         ApiHelper(url,getProductListRequest,'POST')
         .then(resposnse => {
             setCategoryListArray(resposnse.data.categories_list)
