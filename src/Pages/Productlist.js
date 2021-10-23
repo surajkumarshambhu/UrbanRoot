@@ -237,7 +237,7 @@ const Productlist = () => {
                                         <StyledTableCell align="center">{row.quantity}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <div className='flex'>
-                                                <button className='cardsBoxShadow btn' onClick={(e) => handleEditOption(e,row.barcode)}>
+                                                <button className='cardsBoxShadow btn' onClick={(e) => handleEditOption(e,row.id)}>
                                                     <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                                 </button>
                                                 <button className='cardsBoxShadow btn' onClick={(e) => handleClickOpen(e,row.id)}>
