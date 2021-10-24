@@ -212,7 +212,7 @@ const Productlist = () => {
                                         <StyledTableCell align="center">Product Code</StyledTableCell>
                                         <StyledTableCell align="center">Price</StyledTableCell>
                                         <StyledTableCell align="center">Brand Name</StyledTableCell>
-                                        <StyledTableCell align="center">HSN Code</StyledTableCell>
+                                        <StyledTableCell align="center">Category</StyledTableCell>
                                         <StyledTableCell align="center">Quantity</StyledTableCell>
                                         <StyledTableCell align="center">Action</StyledTableCell>
                                     </TableRow>
@@ -233,7 +233,7 @@ const Productlist = () => {
                                         <StyledTableCell align="center">{row.barcode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.cost}</StyledTableCell>
                                         <StyledTableCell align="center">{row.brand_name}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.hsn_code}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.category}</StyledTableCell>
                                         <StyledTableCell align="center">{row.quantity}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <div className='flex'>
@@ -258,7 +258,7 @@ const Productlist = () => {
                             rowsPerPageOptions={[]}
                             component="div"
                             count={totalRecord}
-                            rowsPerPage={10}
+                            rowsPerPage={20}
                             page={page}
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeRowsPerPage}

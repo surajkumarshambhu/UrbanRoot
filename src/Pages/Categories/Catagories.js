@@ -119,14 +119,14 @@ const Catagories = () => {
             <div className='content-page'>
                 <div className='flex'>
                     <div>
-                            <h4>Catagory List</h4>
+                            <h4>Category List</h4>
                             <p>Use category list as to describe your overall core business from the provided list.<br/> 
                             Click Add Category to add more categories.</p>
                     </div>
                     <div className='flex flex-gap10'>
                         <button className='btn' onClick={()=>navigate()}>
                             <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
-                            <span>Add Catagory</span>
+                            <span>Add Category</span>
                         </button>
                         <button className='btn'>
                             <AiIcons.AiOutlineFilter></AiIcons.AiOutlineFilter>
@@ -140,7 +140,7 @@ const Catagories = () => {
                         <Table sx={{ minWidth: 700 }} stickyHeader>
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell>Catagories</StyledTableCell>
+                                    <StyledTableCell>Categories</StyledTableCell>
                                     <StyledTableCell >Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -168,7 +168,7 @@ const Catagories = () => {
                         rowsPerPageOptions={[]}
                         component="div"
                         count={totalRecord}
-                        rowsPerPage={10}
+                        rowsPerPage={20}
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}

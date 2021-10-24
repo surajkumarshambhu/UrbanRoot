@@ -30,7 +30,7 @@ const Dashboard = () => {
                             <span className='content-text'>00.00</span>
                         </div>
                         <div className='card-body bg-2'> 
-                            <span className='content-header'>Total Catagories -</span>
+                            <span className='content-header'>Total Categories -</span>
                             <span className='content-text'>{dashboard.total_catagories}</span>
                         </div>
                         <div className='card-body bg-3'>

@@ -99,7 +99,7 @@ const Sidebar = () =>{
                         <div className="sub">
                             <a href="#">
                                 <span className="icon"><AiIcons.AiOutlineBook></AiIcons.AiOutlineBook></span>
-                                <span style={active === true ? styles.active : styles.notActive}>Catagories</span>
+                                <span style={active === true ? styles.active : styles.notActive}>Categories</span>
                             </a>
                         </div>
                         <div style={active === true ? styles.active : styles.notActive}>
@@ -107,7 +107,7 @@ const Sidebar = () =>{
                         </div>
                     </div>
                     <div style={links === 2 ? styles.linkShow : styles.linkHide} className="subLinks">
-                        <a href="/Catagories">- List Catagories</a>
+                        <a href="/Catagories">- List Categories</a>
                         <a href="/AddCatagories">- Add Category</a>
                     </div>
                 </div>
