@@ -359,7 +359,7 @@ function CalculateBill() {
                             <h4>#Invoice Number {Order_number}</h4>
                             <p>Urban Roots</p>
                             <p>Ward No. 4</p>
-                            <p>Pnadu Barabazar</p>
+                            <p>Pandu Barabazar</p>
                             <p>Phone: 8876998290</p>
                             <p>GST:- 18AOFPR680IZI</p>
                             <p>Date:- {new Date().toLocaleString()}</p>
