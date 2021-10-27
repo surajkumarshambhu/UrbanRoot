@@ -100,6 +100,10 @@ p{
   gap: 10px;
 }
 
+.flex-gap5{
+  gap: 5px;
+}
+
 .table-container{
   margin-top: 20px;
 }
@@ -161,4 +165,26 @@ p{
 
 .text-align{
   text-align:center;
+}
+
+.flex-direction{
+  flex-direction: column;
+}
+
+.custom-grid{
+   display: grid;
+   grid-template-columns: 1fr 1fr
+}
+
+.remove-input-style{
+  border: none;
+  text-align: start;
+}
+
+.font-size-30{
+  font-size:30px;
+}
+
+.font-size-20{
+  font-size:20px;
 }
