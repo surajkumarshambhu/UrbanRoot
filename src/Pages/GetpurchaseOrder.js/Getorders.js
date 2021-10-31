@@ -46,8 +46,23 @@ function Getorders() {
         })
     }, [page]);
 
+    function print(id){
+        setLoader(true)
+        const requestBody = {request: {order_id:id}}
+        let url = "get-pdfview";
+        ApiHelper(url,requestBody,'POST')
+        .then(resposnse => {
+            if(resposnse.success === true){ 
+                setLoader(false)
+                window.open(resposnse.data.url);
+            }
+            else{
+                setLoader(false)
+            }
+        })
+        
+    }
 
-    console.log("entry1 " + page)
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -85,6 +100,9 @@ function Getorders() {
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell align="center">Order Id / Invoice Number</StyledTableCell>
+                                    <StyledTableCell align="center">Customer Name</StyledTableCell>
+                                    <StyledTableCell align="center">Contact Number</StyledTableCell>
+                                    <StyledTableCell align="center">Total</StyledTableCell>
                                     <StyledTableCell align="center">Purchase Date</StyledTableCell>
                                     <StyledTableCell align="left">Action</StyledTableCell>
                                 </TableRow>
@@ -93,13 +111,16 @@ function Getorders() {
                             {productListArray.map((row,key) => (
                                 <StyledTableRow key={key}>
                                     <StyledTableCell align="center">{row.id}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.customer_name}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.customer_contact}</StyledTableCell>
+                                    <StyledTableCell align="center">{Number(row.total).toFixed(2)}</StyledTableCell>
                                     <StyledTableCell align="center">{row.created_at}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <div className='flex unset-justify-content flex-gap10'>
                                             <button className='cardsBoxShadow btn'>
                                                 <AiIcons.AiOutlineEye></AiIcons.AiOutlineEye>
                                             </button>
-                                            <button className='cardsBoxShadow btn'>
+                                            <button className='cardsBoxShadow btn' onClick={(e) => print(row.id)}>
                                                 <AiIcons.AiOutlinePrinter></AiIcons.AiOutlinePrinter>
                                             </button>
                                         </div>
