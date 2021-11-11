@@ -7,6 +7,7 @@ import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
        TableHead, TableRow, Paper, TablePagination} from '@mui/material';
 import { ApiHelper } from '../../Helper/APIHelper';
 import Loader from 'react-loader-spinner';
+import Moment from 'moment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 [`&.${tableCellClasses.head}`]: {
@@ -33,6 +34,32 @@ function Getorders() {
     const [loader, setLoader] = useState(false)
     const [productListArray, setProductListArray] = useState([]);
     const [totalRecord, setTotalRecord] = useState(0);
+    const [formData,setFormData] = useState({
+        fromDate:"",
+        toDate:""
+    })
+
+    function handle(e){
+        e.preventDefault()
+        const newData = {...formData}
+        newData[e.target.id] = Moment(e.target.value).format('YYYY-MM-DD')
+        setFormData(newData)
+    }
+
+    function submit(e){
+        e.preventDefault()
+        setLoader(true)
+        let url = "monthly-report";
+        const requestBody = {request: {from: formData.fromDate,to: formData.toDate}}
+        ApiHelper(url,requestBody,'POST')
+        .then(resposnse => {
+            if(resposnse.success === true){
+                setLoader(false)
+                window.open(resposnse.data.url);
+            }
+            setLoader(false)
+        })
+    }
 
     useEffect(() => {
         setLoader(true)
@@ -74,7 +101,7 @@ function Getorders() {
         <>
         <IconContext.Provider value={{ color: '#fff',size: '20px' }}>
         <div className='content-page'>
-                <div className='flex'>
+                <div className='flex flex-gap10'>
                     <div>
                             <h4>Purchase Order</h4>
                             <p>Purchase Order Summary statement gives detailed information on outstanding purchase orders.<br/>
@@ -82,16 +109,17 @@ function Getorders() {
                                   account Group wise, Ledger wise or All Orders 
                                   to list your products and offering in the most appealing way.</p>
                     </div>
-                    <div className='flex flex-gap10'>
-                        <button className='btn'>
-                            <AiIcons.AiOutlinePlus></AiIcons.AiOutlinePlus>
-                            <span>New Order</span>
-                        </button>
-                        <button className='btn'>
-                            <AiIcons.AiOutlineFilter></AiIcons.AiOutlineFilter>
-                            <span>Filter / Search Orders</span>
-                        </button>
-                    </div>
+                    <form className='flex-grow-4' onSubmit={(e) => submit(e)}>
+                        <div className='form-group-col'>
+                            <input type="date"  min="2021-10-25" onKeyDown={(event) => {event.preventDefault();}} className="form-control" required="required" onChange={(e) => handle(e)} id = 'fromDate' value={formData.fromDate}/>
+                        </div>
+                        <div className='form-group-col'>
+                            <input type="date" min="2021-10-25" max={Moment().format('YYYY-MM-DD')} className="form-control" onKeyDown={(event) => {event.preventDefault();}} required="required" onChange={(e) => handle(e)} id = 'toDate' value={formData.toDate}/>
+                        </div>
+                        <div className='form-group-col'>
+                            <button type="submit" className="btn" >Generate Report</button>
+                        </div>
+                    </form>
                 </div>
                 <div className='table-container'>
                     <TableContainer component={Paper} sx={{ maxHeight:550 }}>
