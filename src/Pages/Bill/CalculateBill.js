@@ -1,8 +1,7 @@
 import React, {useEffect,useState} from 'react'
-import { styled } from '@mui/material/styles';
 import * as AiIcons from 'react-icons/ai';
 import { IconContext } from 'react-icons/lib';
-import {Table, TableBody, TableCell, tableCellClasses ,TableContainer,
+import {Table, TableBody, TableCell ,TableContainer,
     TableHead, TableRow, Paper} from '@mui/material';
 import './CalculateBill.css';
 import Loader from 'react-loader-spinner';
@@ -28,7 +27,7 @@ function CalculateBill() {
     const [productListArray, setProductListArray] = useState([]);
     const [productCode, setProductCode] = useState('');
     const [loadTable, setLoadTable] = useState(false)
-    const [barcodeItems, setBarcodeItems] = useState([]);
+    // const [barcodeItems, setBarcodeItems] = useState([]);
     const [orderId, setOrderId] = useState('0');
     const [formData,setFormData] = useState({
         customer_name: "",
@@ -70,8 +69,18 @@ function CalculateBill() {
 
     function increment(e){
         var newArr = [...productListArray];
-        newArr[e].quantity = newArr[e].quantity + 1
-        setProductListArray(newArr)
+        console.log(newArr[e].available_qty);
+        if(newArr[e].available_qty < (newArr[e].quantity + 1)){
+            setAlertData({
+                message: "Quantity can not be greater then the available quantity",
+                type:"error"
+            })
+            setOpen(true)
+        }
+        else{
+            newArr[e].quantity = newArr[e].quantity + 1
+            setProductListArray(newArr)
+        }
     }
 
     function decrement(e){
@@ -95,21 +104,48 @@ function CalculateBill() {
         let url = "purchase-products";
         ApiHelper(url,requestBody,'POST')
         .then(resposnse => {
-            setOrderNumber(resposnse.data.invoice_number);
-            if(resposnse.data.details.length > 0){
+            if(resposnse.success === false){
+                setAlertData({
+                    message: resposnse.message,
+                    type:"error"
+                })
+                setOpen(true)
                 setLoadTable(false)
-                if (productListArray.length !== 0){
-                    var found = -1;
-                    for(var key in productListArray){
-                        if(productListArray[key].id === resposnse.data.details[0].id ){
-                            found = key;
-                            break;
+            }
+            else{
+                setOrderNumber(resposnse.data.invoice_number);
+                if(resposnse.data.details.length > 0){
+                    setLoadTable(false)
+                    if (productListArray.length !== 0){
+                        var found = -1;
+                        for(var key in productListArray){
+                            if(productListArray[key].id === resposnse.data.details[0].id ){
+                                found = key;
+                                break;
+                            }
                         }
-                    }
-                    if(found >= 0){
-                        var newArr = [...productListArray];
-                        newArr[found].quantity = newArr[found].quantity + 1;
-                        setProductListArray(newArr);
+                        if(found >= 0){
+                            var newArr = [...productListArray];
+                            newArr[found].quantity = newArr[found].quantity + 1;
+                            setProductListArray(newArr);
+                        }
+                        else{
+                            setProductListArray(
+                                (previousItems) => [...previousItems, {
+                                    barcode:resposnse.data.details[0].barcode
+                                    ,quantity:resposnse.data.details[0].quantity,
+                                    description:resposnse.data.details[0].description
+                                    ,discount:resposnse.data.details[0].discount
+                                    ,id:resposnse.data.details[0].id
+                                    ,item:resposnse.data.details[0].item
+                                    ,price:resposnse.data.details[0].unit_cost
+                                    ,total_price:resposnse.data.details[0].total_price
+                                    ,unit_cost:resposnse.data.details[0].unit_cost
+                                    ,total:resposnse.data.details[0].unit_cost
+                                    ,available_qty:resposnse.data.details[0].available_qty
+                                }]
+                            )
+                        }
                     }
                     else{
                         setProductListArray(
@@ -124,27 +160,12 @@ function CalculateBill() {
                                 ,total_price:resposnse.data.details[0].total_price
                                 ,unit_cost:resposnse.data.details[0].unit_cost
                                 ,total:resposnse.data.details[0].unit_cost
+                                ,available_qty:resposnse.data.details[0].available_qty
                             }]
                         )
                     }
-                }
-                else{
-                    setProductListArray(
-                        (previousItems) => [...previousItems, {
-                            barcode:resposnse.data.details[0].barcode
-                            ,quantity:resposnse.data.details[0].quantity,
-                            description:resposnse.data.details[0].description
-                            ,discount:resposnse.data.details[0].discount
-                            ,id:resposnse.data.details[0].id
-                            ,item:resposnse.data.details[0].item
-                            ,price:resposnse.data.details[0].unit_cost
-                            ,total_price:resposnse.data.details[0].total_price
-                            ,unit_cost:resposnse.data.details[0].unit_cost
-                            ,total:resposnse.data.details[0].unit_cost
-                        }]
-                    )
-                }
-                console.log(productListArray)
+                    console.log(productListArray)
+                }   
             }
             setLoadTable(false)
         })
@@ -287,8 +308,8 @@ function CalculateBill() {
             }
             var totalAmount = 0;
             var newArr = [...productListArray];
-            for(var key in newArr){
-                totalAmount = Number(totalAmount) + Number(newArr[key].total)
+            for(var key1 in newArr){
+                totalAmount = Number(totalAmount) + Number(newArr[key1].total)
             }
             let finalAmount = Number(totalAmount) - Number(e.target.value)
             setTotalFormData({
@@ -344,7 +365,7 @@ function CalculateBill() {
             <IconContext.Provider value={{ size: '25px' }}>
             <div className='content-page'>
                 <Snackbar open={open} 
-                    autoHideDuration={1500} 
+                    autoHideDuration={3000} 
                     anchorOrigin={ {
                     vertical: 'bottom',
                     horizontal: 'right',

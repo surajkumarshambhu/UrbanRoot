@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { ApiHelper } from '../Helper/APIHelper'
 import Loader from 'react-loader-spinner';
 import { useHistory } from 'react-router';
-import axios from 'axios'
-import * as CONSTANT from '../Helper/Constant';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import {Snackbar} from '@mui/material';
@@ -59,7 +57,7 @@ function Addproduct() {
     })
 
     const history = useHistory();
-    const [productId,setproductId] = useState()
+    // const [productId,setproductId] = useState()
     const [alertData,setAlertData] = useState({
         message:"",
         type:""
@@ -81,10 +79,10 @@ function Addproduct() {
     const [barcodeType,setBarcodeType] = useState("2")
     const [barcode,setBarcode] = useState("")
     const [state, setState] = React.useState(true);
-    const [fileData,setFileData] = useState({
-        file: '',
-        id: '0'
-    })
+    // const [fileData,setFileData] = useState({
+    //     file: '',
+    //     id: '0'
+    // })
     const [open, setOpen] = useState(false);
     
     const handleClose = (event, reason) => {
@@ -164,7 +162,7 @@ function Addproduct() {
             }
             else{
                 history.push("/productlist");
-                setproductId(resposnse.data.product_id)
+                // setproductId(resposnse.data.product_id)
                 setLoader({
                    loader: false
                 })
@@ -176,47 +174,47 @@ function Addproduct() {
 
     }
     
-    function fileUploadHandler(e){
-        setLoader({
-            loader: true
-        })
-        let bearer ='';
-        if (localStorage.getItem("user") !== null) {
-            let usrData = JSON.parse(localStorage.getItem('user') ?? "");
-            bearer = 'Bearer '+ usrData.data.user.token ;
-        }
-        const fd = new FormData()
-        fd.append("request[file]",fileData.file,fileData.file.name)
-        fd.append("request[product_code]",productId)
-        axios.post(CONSTANT.BASEURL + 'upload-doc',fd,{
-            headers: {
-                'AcceptLanguage': 'en_US',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'clientVersion': 'WEB:1',
-                'Authorization': bearer,
-            }
-        })
-        .then(res=>{
-            if (res.success === true){
-                setLoader({
-                    loader: false
-                })
-            }
-            else{
-                setLoader({
-                    loader: false
-                })
-            }
-        })
-    }
+    // function fileUploadHandler(e){
+    //     setLoader({
+    //         loader: true
+    //     })
+    //     let bearer ='';
+    //     if (localStorage.getItem("user") !== null) {
+    //         let usrData = JSON.parse(localStorage.getItem('user') ?? "");
+    //         bearer = 'Bearer '+ usrData.data.user.token ;
+    //     }
+    //     const fd = new FormData()
+    //     fd.append("request[file]",fileData.file,fileData.file.name)
+    //     fd.append("request[product_code]",productId)
+    //     axios.post(CONSTANT.BASEURL + 'upload-doc',fd,{
+    //         headers: {
+    //             'AcceptLanguage': 'en_US',
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json',
+    //             'clientVersion': 'WEB:1',
+    //             'Authorization': bearer,
+    //         }
+    //     })
+    //     .then(res=>{
+    //         if (res.success === true){
+    //             setLoader({
+    //                 loader: false
+    //             })
+    //         }
+    //         else{
+    //             setLoader({
+    //                 loader: false
+    //             })
+    //         }
+    //     })
+    // }
 
-    function fileSelectHandler(e){
-        setFileData({
-            file:e.target.files[0],
-            id:'0'
-        })
-    }
+    // function fileSelectHandler(e){
+    //     setFileData({
+    //         file:e.target.files[0],
+    //         id:'0'
+    //     })
+    // }
     
     return (
         <div className='content-page padding-10'>
@@ -310,7 +308,7 @@ function Addproduct() {
                                 />
                                 <h2>Use compnay barcode</h2>
                             </div>
-                            <div className='flex padding-10'  style={state == false ? styles.none : styles.flex}>
+                            <div className='flex padding-10'  style={state === false ? styles.none : styles.flex}>
                                 <TextField
                                     onChange={(e) => handleBarcodeChange(e)}
                                     className='flex-grow-1 padding-10'
