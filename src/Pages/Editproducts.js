@@ -142,6 +142,11 @@ function Editproducts() {
                 setLoader({
                     loader: false
                  })
+                 setAlertData({
+                    message: resposnse.message,
+                    type:"error"
+                 })
+                 setOpen(true);
             }
             else{
                 setLoader({

@@ -158,7 +158,12 @@ function Addproduct() {
             if (resposnse.success === false){
                 setLoader({
                     loader: false
-                 })
+                })
+                setAlertData({
+                    message: resposnse.message,
+                    type:"error"
+                })
+                setOpen(true);
             }
             else{
                 history.push("/productlist");
